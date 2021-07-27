@@ -86,7 +86,6 @@ namespace Hotline.Controllers
                 reclamation.Client = user;
                 //PROJET + DOMAINE
 
-
                 _context.Add(reclamation);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

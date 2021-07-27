@@ -58,7 +58,7 @@
                 @Html.DisplayFor(modelItem => item.Solution)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Responsable)
+                @Html.DisplayFor(modelItem => item.Responsable.Login)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Numero">Edit</a> |

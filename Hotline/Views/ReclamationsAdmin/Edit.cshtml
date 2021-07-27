@@ -17,7 +17,7 @@
             <div class="form-group">
                 <label asp-for="Responsable" class="control-label"></label>
                 <select asp-for="Responsable" class="form-control"
-                        asp-items="@(new SelectList(ViewBag.UsersList,"Id","Login"))"></select>
+                        asp-items="@(new SelectList(ViewBag.UsersList,"Id","Login"))" ></select>
                 <span asp-validation-for="Responsable" class="text-danger"></span>
             </div>
 
