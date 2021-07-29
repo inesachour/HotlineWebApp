@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hotline.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210715075815_Add-Client")]
-    partial class AddClient
+    [Migration("20210729100835_fixing")]
+    partial class fixing
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,9 +32,11 @@ namespace Hotline.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Login")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -52,7 +54,12 @@ namespace Hotline.Migrations
                     b.Property<string>("Nom")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ProjetId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjetId");
 
                     b.ToTable("Domaines");
                 });
@@ -64,10 +71,15 @@ namespace Hotline.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nom")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
 
                     b.ToTable("Projets");
                 });
@@ -79,10 +91,13 @@ namespace Hotline.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DateAffectation")
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DateAffectation")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateResolution")
+                    b.Property<DateTime?>("DateResolution")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateSoumission")
@@ -108,6 +123,8 @@ namespace Hotline.Migrations
 
                     b.HasKey("Numero");
 
+                    b.HasIndex("ClientId");
+
                     b.HasIndex("DomaineId");
 
                     b.HasIndex("ProjetId");
@@ -124,10 +141,15 @@ namespace Hotline.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("Admin")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Login")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -135,8 +157,32 @@ namespace Hotline.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Hotline.Models.Domaine", b =>
+                {
+                    b.HasOne("Hotline.Models.Projet", "Projet")
+                        .WithMany()
+                        .HasForeignKey("ProjetId");
+
+                    b.Navigation("Projet");
+                });
+
+            modelBuilder.Entity("Hotline.Models.Projet", b =>
+                {
+                    b.HasOne("Hotline.Models.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId");
+
+                    b.Navigation("Client");
+                });
+
             modelBuilder.Entity("Hotline.Models.Reclamation", b =>
                 {
+                    b.HasOne("Hotline.Models.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Hotline.Models.Domaine", "Domaine")
                         .WithMany()
                         .HasForeignKey("DomaineId");
@@ -148,6 +194,8 @@ namespace Hotline.Migrations
                     b.HasOne("Hotline.Models.User", "Responsable")
                         .WithMany()
                         .HasForeignKey("ResponsableId");
+
+                    b.Navigation("Client");
 
                     b.Navigation("Domaine");
 

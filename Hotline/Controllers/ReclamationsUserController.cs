@@ -8,16 +8,18 @@ using Microsoft.EntityFrameworkCore;
 using Hotline.Data;
 using Hotline.Models;
 using Microsoft.AspNetCore.Authorization;
+using Hotline.Services;
 
 namespace Hotline.Controllers
 {
     public class ReclamationsUserController : Controller
     {
         private readonly AppDbContext _context;
-
-        public ReclamationsUserController(AppDbContext context)
+        private readonly IMailingService _mailingService;
+        public ReclamationsUserController(AppDbContext context, IMailingService mailingService)
         {
             _context = context;
+            _mailingService = mailingService;
         }
 
         // GET: Reclamations
@@ -86,6 +88,8 @@ namespace Hotline.Controllers
                     reclamation.Statut = "Résolue";
                     _context.Update(reclamation);
                     await _context.SaveChangesAsync();
+                    var rec = _context.Reclamations.Include(c => c.Client).Where(r => r.Numero == reclamation.Numero);
+                    await _mailingService.SendEmail(rec.FirstOrDefault().Client.Email,"Réclamation résolue", "Test");
                 }
                 catch (DbUpdateConcurrencyException)
                 {

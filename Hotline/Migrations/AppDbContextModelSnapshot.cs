@@ -89,7 +89,7 @@ namespace Hotline.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ClientId")
+                    b.Property<int>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DateAffectation")
@@ -177,7 +177,9 @@ namespace Hotline.Migrations
                 {
                     b.HasOne("Hotline.Models.Client", "Client")
                         .WithMany()
-                        .HasForeignKey("ClientId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Hotline.Models.Domaine", "Domaine")
                         .WithMany()

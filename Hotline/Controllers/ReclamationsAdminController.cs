@@ -71,7 +71,7 @@ namespace Hotline.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Numero,Responsable")] Reclamation reclamation)
+        public async Task<IActionResult> Edit(int id, [Bind("Numero,Responsable,Description")] Reclamation reclamation,int idResponsalbe)
         {
             if (id != reclamation.Numero)
             {
@@ -82,10 +82,13 @@ namespace Hotline.Controllers
             {
                 try
                 {
-                    //reclamation.Responsable = user;
-                    Console.WriteLine("---------------"+reclamation.Responsable.Id);
+                    var idResponsable = Int32.Parse(Request.Form["Responsable"]);
+                    reclamation.Responsable = _context.Users.Find(idResponsable);
                     reclamation.Statut = "Afféctée";
                     reclamation.DateAffectation = DateTime.Now;
+
+                    var email = reclamation.Client.Email;
+
                     _context.Update(reclamation);
                     await _context.SaveChangesAsync();
                 }

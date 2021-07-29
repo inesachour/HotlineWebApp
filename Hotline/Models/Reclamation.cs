@@ -17,7 +17,7 @@ namespace Hotline.Models
         public DateTime DateSoumission { get; set; }
         public string Statut { get; set; }
         public DateTime? DateAffectation { get; set; }
-        public User Responsable { get; set; } //Rename
+        public User Responsable { get; set; }
         public DateTime? DateResolution { get; set; }
         public string Solution { get; set; }
     }

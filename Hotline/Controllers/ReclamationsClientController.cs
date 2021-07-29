@@ -25,9 +25,10 @@ namespace Hotline.Controllers
         [Authorize(Roles = "Client")]
         public async Task<IActionResult> Index(int? pageNumber)
         {
-            var reclamations = _context.Reclamations.Where(r => r.Client.Login == User.Identity.Name);
+            var reclamations = _context.Reclamations.Include(c=>c.Client).Where(r => r.Client.Login == User.Identity.Name);
             int pageSize = 8;
             return View(await PaginatedList<Reclamation>.CreateAsync(reclamations.AsNoTracking(), pageNumber ?? 1, pageSize));
+
         }
 
         // GET: Reclamations/Details/5
@@ -82,7 +83,7 @@ namespace Hotline.Controllers
                 reclamation.DateSoumission = DateTime.Now;
                 reclamation.Statut = "Soumise";
                 var login = User.FindFirstValue(ClaimTypes.Name); // will give the user's userId
-                var user = _context.Clients.Where(u => u.Login == login).FirstOrDefault(); //UNICITY VERIFICATION AND FIX THIS
+                var user = _context.Clients.Where(u => u.Login == login).FirstOrDefault();
                 reclamation.Client = user;
                 //PROJET + DOMAINE
 

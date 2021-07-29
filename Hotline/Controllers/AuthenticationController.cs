@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,6 +56,7 @@ namespace Hotline.Controllers
                     var claims = new List<Claim>();
                     claims.Add(new Claim(ClaimTypes.Name, login));
                     claims.Add(new Claim(ClaimTypes.Role, "Client"));
+                    claims.Add(new Claim("Id", client.Id.ToString()));
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                     await HttpContext.SignInAsync(claimsPrincipal);
@@ -87,6 +89,7 @@ namespace Hotline.Controllers
                         claims.Add(new Claim(ClaimTypes.Name, login));
                         if (user.Admin == true) claims.Add(new Claim(ClaimTypes.Role, "Admin"));
                         else claims.Add(new Claim(ClaimTypes.Role, "User"));
+                        claims.Add(new Claim("Id", user.Id.ToString()));
                         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                         var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                         await HttpContext.SignInAsync(claimsPrincipal);
@@ -103,11 +106,25 @@ namespace Hotline.Controllers
         }
 
 
-        [Authorize]
+        [Authorize(Roles ="Client")]
         [HttpGet("account")]
-        public IActionResult Account()
+        public async Task<IActionResult> AccountClient(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var client = await _context.Clients.FirstOrDefaultAsync(m => m.Id == id);
+            if (client == null)
+            {
+                return NotFound();
+            }
+            else if(client.Id != id)
+            {
+                return Redirect("denied");
+            }
+            return View(client);
         }
 
         [Authorize]

@@ -13,7 +13,14 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Numero" />
-            
+            <input type="hidden" asp-for="Description" />
+            <input type="hidden" asp-for="DateAffectation" />
+            <input type="hidden" asp-for="DateSoumission" />
+            <input type="hidden" asp-for="Client" />
+            <input type="hidden" asp-for="Domaine" />
+            <input type="hidden" asp-for="Projet" />
+            <input type="hidden" asp-for="Responsable" />
+
             <div class="form-group">
                 <label asp-for="Solution" class="control-label"></label>
                 <input asp-for="Solution" class="form-control" />

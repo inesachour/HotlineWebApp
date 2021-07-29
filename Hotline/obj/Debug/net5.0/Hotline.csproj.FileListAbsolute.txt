@@ -194,4 +194,7 @@ C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\V
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\ReclamationsAdmin\Details.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\ReclamationsAdmin\Edit.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\ReclamationsAdmin\Index.cshtml.g.cs
-C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Authentication\Account.cshtml.g.cs
+C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Users\Details.cshtml.g.cs
+C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\bin\Debug\net5.0\MailKit.dll
+C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\bin\Debug\net5.0\MimeKit.dll
+C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\bin\Debug\net5.0\BouncyCastle.Crypto.dll

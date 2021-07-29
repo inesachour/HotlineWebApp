@@ -29,7 +29,7 @@ namespace Hotline.Controllers
         }
 
         // GET: Clients/Details/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Client")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -37,11 +37,14 @@ namespace Hotline.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Clients
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var client = await _context.Clients.FirstOrDefaultAsync(m => m.Id == id);
             if (client == null)
             {
                 return NotFound();
+            }
+            else if (User.IsInRole("Client") && client.Id != id)
+            {
+                Redirect("denied");
             }
 
             return View(client);
@@ -64,11 +67,18 @@ namespace Hotline.Controllers
         {
             if (ModelState.IsValid)
             {
-                var passwordHasher = new PasswordHasher<string>();
-                client.Password = passwordHasher.HashPassword(null, client.Password);
-                _context.Add(client);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (LoginExists(client.Login) == false)
+                {
+                    var passwordHasher = new PasswordHasher<string>();
+                    client.Password = passwordHasher.HashPassword(null, client.Password);
+                    _context.Add(client);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    TempData["Error"] = "Ce compte existe déja";
+                }
             }
             return View(client);
         }
@@ -160,6 +170,12 @@ namespace Hotline.Controllers
         private bool ClientExists(int id)
         {
             return _context.Clients.Any(e => e.Id == id);
+        }
+
+        private bool LoginExists(string login)
+        {
+            return _context.Users.Any(e => e.Login == login) || _context.Clients.Any(e => e.Login == login);
+
         }
     }
 }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hotline.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210726113410_FixingIssues2")]
-    partial class FixingIssues2
+    [Migration("20210729091723_Setup")]
+    partial class Setup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,10 +28,6 @@ namespace Hotline.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -46,8 +42,6 @@ namespace Hotline.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Clients");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Client");
                 });
 
             modelBuilder.Entity("Hotline.Models.Domaine", b =>
@@ -142,9 +136,25 @@ namespace Hotline.Migrations
 
             modelBuilder.Entity("Hotline.Models.User", b =>
                 {
-                    b.HasBaseType("Hotline.Models.Client");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.HasDiscriminator().HasValue("User");
+                    b.Property<bool>("Admin")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Login")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Hotline.Models.Domaine", b =>
