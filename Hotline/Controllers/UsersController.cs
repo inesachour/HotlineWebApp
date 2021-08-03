@@ -28,7 +28,7 @@ namespace Hotline.Controllers
             return View(await _context.Users.ToListAsync());
         }
 
-        // GET: Users/Details/5
+        // GET: Clients/Details/5
         [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> Details(int? id)
         {
@@ -123,10 +123,12 @@ namespace Hotline.Controllers
                 {
                     if(User.IsInRole("User") && user.Id != id)
                     {
-                        Redirect("/denied");
+                        return Redirect("/denied");
                     }
                     else
                     {
+                        var passwordHasher = new PasswordHasher<string>();
+                        user.Password = passwordHasher.HashPassword(null, user.Password);
                         _context.Update(user);
                         await _context.SaveChangesAsync();
                     }

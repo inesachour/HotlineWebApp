@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Hotline.Models.Reclamation>
+﻿@model PaginatedList<Hotline.Models.Reclamation>
 
 @{
     ViewData["Title"] = "Index";
@@ -12,66 +12,91 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Client)
+            <th >
+                Numero
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                <a asp-route-sortOrder="@ViewData["ClientSortParm"]">Client</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateSoumission)
+                Description
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Statut)
+                <a asp-route-sortOrder="@ViewData["DateSortParm"]">Date de soumission</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateAffectation)
+                <a asp-route-sortOrder="@ViewData["StatutSortParm"]">Statut</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateResolution)
+                Date d'affectation
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Solution)
+               Date de resolution
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Responsable)
+                Solution
+            </th>
+            <th>
+                Responsable
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Client)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateSoumission)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Statut)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateAffectation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateResolution)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Solution)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Responsable.Login)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Numero">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Numero">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Numero">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Numero)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Client.Login)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateSoumission)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Statut)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateAffectation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateResolution)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Solution)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Responsable.Login)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Numero">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Numero">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Numero">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>

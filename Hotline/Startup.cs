@@ -36,6 +36,8 @@ namespace Hotline
             services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
             /*.AddAuthentication("CookieAuth").AddCookie("CookieAuth", config => {
                
             });*/

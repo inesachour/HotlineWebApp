@@ -24,11 +24,11 @@ namespace Hotline.Controllers
 
         // GET: Reclamations
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? pageNumber)
         {
-            var reclamations = _context.Reclamations.Where(r => r.Responsable.Login == User.Identity.Name);
-
-            return View(await _context.Reclamations.ToListAsync());
+            var reclamations = _context.Reclamations.Include(c => c.Client).Where(r => r.Responsable.Login == User.Identity.Name);
+            int pageSize = 8;
+            return View(await PaginatedList<Reclamation>.CreateAsync(reclamations.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Reclamations/Details/5
@@ -87,9 +87,10 @@ namespace Hotline.Controllers
                     reclamation.DateResolution = DateTime.Now;
                     reclamation.Statut = "Résolue";
                     _context.Update(reclamation);
+                    var reclamations = _context.Reclamations.Include(c => c.Client).Where(r => r.Numero == reclamation.Numero);
+                    var client= reclamations.AsNoTracking().FirstOrDefault().Client;
+                    await _mailingService.SendEmail(client.Email, "Réclamation résolue", "Test2");
                     await _context.SaveChangesAsync();
-                    var rec = _context.Reclamations.Include(c => c.Client).Where(r => r.Numero == reclamation.Numero);
-                    await _mailingService.SendEmail(rec.FirstOrDefault().Client.Email,"Réclamation résolue", "Test");
                 }
                 catch (DbUpdateConcurrencyException)
                 {

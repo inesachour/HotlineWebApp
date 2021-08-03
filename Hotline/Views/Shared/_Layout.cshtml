@@ -31,20 +31,20 @@
                                 @if (User.IsInRole("Client"))
                                 {
                                     <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="ReclamationsClient" asp-action="Index">Reclamations</a>
-                                    <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Clients" asp-action="Details" asp-route-id="@Int32.Parse(User.FindFirst("Id").Value)">Compte(fix)</a>
+                                    <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Clients" asp-action="Details" asp-route-id="@Int32.Parse(User.FindFirst("Id").Value)">Compte</a>
                                 }
 
                                 @if (User.IsInRole("User"))
                                 {
                                     <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="ReclamationsUser" asp-action="Index">Reclamations</a>
-                                    <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@Int32.Parse(User.FindFirst("Id").Value)">Compte(fix)</a>
+                                    <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@Int32.Parse(User.FindFirst("Id").Value)">Compte</a>
                                 }
                                 @if (User.IsInRole("Admin"))
                                 {
                                     <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="ReclamationsAdmin" asp-action="Index">Reclamations</a>
                                     <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Users" asp-action="Index">Comptes Users</a>
                                     <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Clients" asp-action="Index">Comptes Clients</a>
-                                    <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@Int32.Parse(User.FindFirst("Id").Value)">Compte(fix)</a>
+                                    <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@Int32.Parse(User.FindFirst("Id").Value)">Compte</a>
 
                                 }
                                 <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Authentication" asp-action="Logout">Logout</a>
@@ -58,12 +58,14 @@
     </header>
 
         <main role="main" class="pb-3">
-            @RenderBody()
+            <div class="container">
+                @RenderBody()
+            </div>
         </main>
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - Hotline - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - Hotline
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

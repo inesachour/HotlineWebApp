@@ -16,32 +16,54 @@
                 @Html.DisplayNameFor(model => model.Login)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Email)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Login)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+
+            <tr>
+                <td>
+                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample-@item.Id" role="button" aria-expanded="false" aria-controls="collapseExample-@item.Id">
+                            Click to show
+                        </a>
+                        <table class="collapse" id="collapseExample-@item.Id">
+                            @foreach (var p in ViewBag.ProjetsList)
+                            {
+                            <tr>
+                                @if (p.Client.Id == item.Id)
+                                {
+                                <td>
+                                    @p.Nom
+                                </td>
+                                <td>
+                                    <a asp-controller="Projets" asp-action="Edit" asp-route-id="@p.Id">Edit</a> |
+                                    <a asp-controller="Projets" asp-action="Details" asp-route-id="@p.Id">Details</a> |
+                                    <a asp-controller="Projets" asp-action="Delete" asp-route-id="@p.Id">Delete</a> |
+                                </td>
+                                }
+                            </tr>
+                            }
+                        </table>
+ 
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Login)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                </td>
+
+            </tr>
+        }
     </tbody>
+    
 </table>

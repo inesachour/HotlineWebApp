@@ -32,6 +32,10 @@ namespace Hotline.Controllers
         [HttpGet("login")]
         public IActionResult Login(string returnUrl)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Redirect("/");
+            }
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
@@ -39,6 +43,11 @@ namespace Hotline.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(string login, string password, string returnUrl)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Redirect("/");
+            }
+            
             ViewData["ReturnUrl"] = returnUrl;
 
             var clients = from c in _context.Clients

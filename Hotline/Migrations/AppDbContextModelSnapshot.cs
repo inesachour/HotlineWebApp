@@ -89,7 +89,7 @@ namespace Hotline.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ClientId")
+                    b.Property<int?>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DateAffectation")
@@ -158,7 +158,7 @@ namespace Hotline.Migrations
             modelBuilder.Entity("Hotline.Models.Domaine", b =>
                 {
                     b.HasOne("Hotline.Models.Projet", "Projet")
-                        .WithMany()
+                        .WithMany("Domaines")
                         .HasForeignKey("ProjetId");
 
                     b.Navigation("Projet");
@@ -167,7 +167,7 @@ namespace Hotline.Migrations
             modelBuilder.Entity("Hotline.Models.Projet", b =>
                 {
                     b.HasOne("Hotline.Models.Client", "Client")
-                        .WithMany()
+                        .WithMany("Projets")
                         .HasForeignKey("ClientId");
 
                     b.Navigation("Client");
@@ -177,9 +177,7 @@ namespace Hotline.Migrations
                 {
                     b.HasOne("Hotline.Models.Client", "Client")
                         .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClientId");
 
                     b.HasOne("Hotline.Models.Domaine", "Domaine")
                         .WithMany()
@@ -200,6 +198,16 @@ namespace Hotline.Migrations
                     b.Navigation("Projet");
 
                     b.Navigation("Responsable");
+                });
+
+            modelBuilder.Entity("Hotline.Models.Client", b =>
+                {
+                    b.Navigation("Projets");
+                });
+
+            modelBuilder.Entity("Hotline.Models.Projet", b =>
+                {
+                    b.Navigation("Domaines");
                 });
 #pragma warning restore 612, 618
         }

@@ -25,6 +25,7 @@ namespace Hotline.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
+            ViewBag.ProjetsList = _context.Projets;
             return View(await _context.Clients.ToListAsync());
         }
 
@@ -84,7 +85,7 @@ namespace Hotline.Controllers
         }
 
         // GET: Clients/Edit/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Client")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -96,6 +97,10 @@ namespace Hotline.Controllers
             if (client == null)
             {
                 return NotFound();
+            }
+            if (User.IsInRole("Client") && client.Id != id)
+            {
+                return Redirect("denied");
             }
             return View(client);
         }
@@ -117,8 +122,17 @@ namespace Hotline.Controllers
             {
                 try
                 {
-                    _context.Update(client);
-                    await _context.SaveChangesAsync();
+                    if (User.IsInRole("Client") && client.Id != id)
+                    {
+                        return Redirect("/denied");
+                    }
+                    else
+                    {
+                        var passwordHasher = new PasswordHasher<string>();
+                        client.Password = passwordHasher.HashPassword(null, client.Password);
+                        _context.Update(client);
+                        await _context.SaveChangesAsync();
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {

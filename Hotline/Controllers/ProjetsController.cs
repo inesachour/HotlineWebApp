@@ -20,9 +20,10 @@ namespace Hotline.Controllers
         }
 
         // GET: Projets
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            return View(await _context.Projets.ToListAsync());
+            var projets = await _context.Projets.ToListAsync();
+            return View(projets);
         }
 
         // GET: Projets/Details/5
@@ -56,10 +57,17 @@ namespace Hotline.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nom,Client")] Projet projet)
+        public async Task<IActionResult> Create([Bind("Id,Nom,Client,Domaines")] Projet projet)
         {
             if (ModelState.IsValid)
             {
+                Domaine d = new Domaine();
+                d.Nom = HttpContext.Request.Form["domaine"];
+                d.Projet = projet;
+                _context.Domaines.Add(d);
+                projet.Domaines.Add(d);
+
+                projet.Client =_context.Clients.Find(Int32.Parse(HttpContext.Request.Form["client"]));
                 _context.Add(projet);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

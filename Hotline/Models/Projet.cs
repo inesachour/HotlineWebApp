@@ -12,7 +12,7 @@ namespace Hotline.Models
         public int Id { get; set; }
         public string Nom { get; set; }
         public Client Client { get; set; }
-        ICollection<Domaine> Domaines { get; set; }
+        public ICollection<Domaine> Domaines { get; set; }
 
 
     }
