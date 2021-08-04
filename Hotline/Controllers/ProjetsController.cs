@@ -61,11 +61,17 @@ namespace Hotline.Controllers
         {
             if (ModelState.IsValid)
             {
-                Domaine d = new Domaine();
-                d.Nom = HttpContext.Request.Form["domaine"];
-                d.Projet = projet;
-                _context.Domaines.Add(d);
-                projet.Domaines.Add(d);
+                var i = 1;
+                while (! string.IsNullOrEmpty(HttpContext.Request.Form["domaine" + i]))
+                {
+                    projet.Nom = "DEJA ";
+                    Domaine d = new Domaine();
+                    d.Nom = HttpContext.Request.Form["domaine"+i];
+                    d.Projet = projet;
+                    _context.Domaines.Add(d);
+                    projet.Domaines.Add(d);
+                    i++;
+                }
 
                 projet.Client =_context.Clients.Find(Int32.Parse(HttpContext.Request.Form["client"]));
                 _context.Add(projet);

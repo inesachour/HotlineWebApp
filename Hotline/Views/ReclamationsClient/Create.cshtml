@@ -1,5 +1,4 @@
 ﻿@model Hotline.Models.Reclamation
-
 @{
     ViewData["Title"] = "Create";
 }
@@ -19,11 +18,20 @@
             </div>
             <div class="form-group">
                 <label asp-for="Projet" class="control-label"></label>
-                <select asp-for="Projet" class="form-control"
-                        asp-items="@(new SelectList(ViewBag.ProjetsList,"Id","Nom"))" ></select>
+                <select asp-for="Projet" class="form-control" id="projets"
+                        asp-items="@(new SelectList(ViewBag.ProjetsList,"Id","Nom"))">
+                    <option>Choisissez un Projet</option>
+                </select>
                 <span asp-validation-for="Projet" class="text-danger"></span>
             </div>
-            
+            <div class="form-group">
+                <label asp-for="Domaine" class="control-label"></label>
+                <select disabled class="form-control" id="domaines" asp-for="Domaine"
+                        asp-items="@ViewBag.DomainesList">
+                </select>
+                <span class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -35,6 +43,28 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
+
+<script>
+    //Bind State dropdownlist
+    $("#projets").change(function () {
+        $('#domaines').prop('disabled', false);
+        var id = $(this).val();
+        $.getJSON("/ReclamationsClient/GetDomaines", { id: id }, function (data) {
+            var item = "";
+            $("#domaines").find('option').not(':first').remove();
+            item += '<option value="">Choisir un domaine</option>'
+            $.each(data, function (i, domaine) {
+                item += '<option value="' + domaine.value + '">' + domaine.text + '</option>'
+            });
+            $("#domaines").html(item);
+        });
+    });
+</script>
+
+@section Scripts
+{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+
+

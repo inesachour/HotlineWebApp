@@ -25,7 +25,9 @@ namespace Hotline.Controllers
         [Authorize(Roles = "Client")]
         public async Task<IActionResult> Index(int? pageNumber)
         {
-            var reclamations = _context.Reclamations.Include(c=>c.Client).Where(r => r.Client.Login == User.Identity.Name);
+            var reclamations = _context.Reclamations.Include(r => r.Projet)
+                .Include(r => r.Domaine)
+                .Where(r => r.Client.Login == User.Identity.Name);
             int pageSize = 8;
             return View(await PaginatedList<Reclamation>.CreateAsync(reclamations.AsNoTracking(), pageNumber ?? 1, pageSize));
 
@@ -69,6 +71,14 @@ namespace Hotline.Controllers
             return View();
         }
 
+
+        public JsonResult GetDomaines(int id)
+        {
+            var domaines = _context.Domaines.Include(d => d.Projet).Where(d => d.Projet.Id == id);
+            return Json(new SelectList(domaines, "Id", "Nom"));
+        }
+
+
         // POST: Reclamations/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -85,8 +95,10 @@ namespace Hotline.Controllers
                 var login = User.FindFirstValue(ClaimTypes.Name); // will give the user's userId
                 var user = _context.Clients.Where(u => u.Login == login).FirstOrDefault();
                 reclamation.Client = user;
-                //PROJET + DOMAINE
-
+                var idProjet = Int32.Parse(Request.Form["Projet"]);
+                reclamation.Projet = _context.Projets.Find(idProjet);
+                var idDomaine = Int32.Parse(Request.Form["Domaine"]);
+                reclamation.Domaine = _context.Domaines.Find(idDomaine);
                 _context.Add(reclamation);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
