@@ -15,8 +15,13 @@
 
             <div class="form-group">
                 <label asp-for="Client" class="control-label"></label>
-                <select name="client" asp-for="Client" class="form-control"
-                        asp-items="@(new SelectList(ViewBag.ClientsList,"Id","Login"))"></select>
+                
+                <select name="client" asp-for="Client" class="form-control" 
+                        asp-items="@(new SelectList(ViewBag.ClientsList,"Id","Login"))">
+                    <option value="">Choisir un client</option>
+                </select>
+                
+             
                 <span asp-validation-for="Client" class="text-danger"></span>
             </div>
 
@@ -57,7 +62,7 @@
         newDomaine.prop("id", "domaine".concat(i));
         newDomaine.prop("type", "");
         i++;
-        newDomaine.insertAfter(domaine);
+        newDomaine.insertBefore(domaine);
     })
     $("#delete").click(function (){
         if (i > 1) {

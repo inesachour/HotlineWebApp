@@ -197,7 +197,6 @@ C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\V
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\bin\Debug\net5.0\MailKit.dll
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\bin\Debug\net5.0\MimeKit.dll
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\bin\Debug\net5.0\BouncyCastle.Crypto.dll
-C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Users\View.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\bin\Debug\net5.0\refs\Microsoft.AspNetCore.Antiforgery.dll
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\bin\Debug\net5.0\refs\Microsoft.AspNetCore.Authentication.Abstractions.dll
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\bin\Debug\net5.0\refs\Microsoft.AspNetCore.Authentication.Cookies.dll
@@ -477,3 +476,4 @@ C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\bin\Debug\net5.0\refs\Wi
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.Razor.Extensions.dll
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation.dll
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\bin\Debug\net5.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Users\Details.cshtml.g.cs

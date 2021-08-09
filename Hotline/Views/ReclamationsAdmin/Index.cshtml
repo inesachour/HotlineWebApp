@@ -16,16 +16,22 @@
                 Numero
             </th>
             <th>
-                <a asp-route-sortOrder="@ViewData["ClientSortParm"]">Client</a>
+                Client
+                <a asp-route-sortOrder="@ViewData["ClientSortParamAsc"]">&#9650;</a>
+                <a asp-route-sortOrder="@ViewData["ClientSortParamDesc"]">&#9660;</a>
             </th>
             <th>
                 Description
             </th>
             <th>
-                <a asp-route-sortOrder="@ViewData["DateSortParm"]">Date de soumission</a>
+                Date de soumission
+                <a asp-route-sortOrder="@ViewData["DateSortParamAsc"]">&#9650;</a>
+                <a asp-route-sortOrder="@ViewData["DateSortParamDesc"]">&#9660;</a>
             </th>
             <th>
-                <a asp-route-sortOrder="@ViewData["StatutSortParm"]">Statut</a>
+                Statut
+                <a asp-route-sortOrder="@ViewData["StatutSortParamAsc"]">&#9650;</a>
+                <a asp-route-sortOrder="@ViewData["StatutSortParamDesc"]">&#9660;</a>
             </th>
             <th>
                 Date d'affectation
@@ -77,6 +83,7 @@
                     <a asp-action="Edit" asp-route-id="@item.Numero">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.Numero">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.Numero">Delete</a>
+ 
                 </td>
             </tr>
         }

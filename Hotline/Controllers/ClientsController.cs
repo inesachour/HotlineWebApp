@@ -70,6 +70,11 @@ namespace Hotline.Controllers
             {
                 if (LoginExists(client.Login) == false)
                 {
+                    if (client.Password.Length < 6)
+                    {
+                        TempData["Error"] = "Mot de passe trés court";
+                        return View(client);
+                    }
                     var passwordHasher = new PasswordHasher<string>();
                     client.Password = passwordHasher.HashPassword(null, client.Password);
                     _context.Add(client);
@@ -108,7 +113,7 @@ namespace Hotline.Controllers
         // POST: Clients/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Client")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Login,Password,Email")] Client client)
@@ -124,7 +129,7 @@ namespace Hotline.Controllers
                 {
                     if (User.IsInRole("Client") && client.Id != id)
                     {
-                        return Redirect("/denied");
+                        return Redirect("denied");
                     }
                     else
                     {
@@ -145,6 +150,9 @@ namespace Hotline.Controllers
                         throw;
                     }
                 }
+                if(User.IsInRole("Client"))
+                    return RedirectToAction("Index","Home");
+
                 return RedirectToAction(nameof(Index));
             }
             return View(client);

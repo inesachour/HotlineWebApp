@@ -69,6 +69,11 @@ namespace Hotline.Controllers
             {
                 if (LoginExists(user.Login)==false)
                 {
+                    if(user.Password.Length < 6)
+                    {
+                        TempData["error"] = "Mot de passe trés court";
+                        return View(user);
+                    }
                     var passwordHasher = new PasswordHasher<string>();
                     user.Password = passwordHasher.HashPassword(null, user.Password);
                     _context.Add(user);
@@ -123,7 +128,7 @@ namespace Hotline.Controllers
                 {
                     if(User.IsInRole("User") && user.Id != id)
                     {
-                        return Redirect("/denied");
+                        return Redirect("denied");
                     }
                     else
                     {

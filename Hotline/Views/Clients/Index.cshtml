@@ -12,6 +12,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th></th>
             <th>
                 @Html.DisplayNameFor(model => model.Login)
             </th>
@@ -26,28 +27,33 @@
         {
 
             <tr>
-                <td>
-                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample-@item.Id" role="button" aria-expanded="false" aria-controls="collapseExample-@item.Id">
-                            Click to show
-                        </a>
-                        <table class="collapse" id="collapseExample-@item.Id">
-                            @foreach (var p in ViewBag.ProjetsList)
-                            {
-                            <tr>
+                <td style="width:250px; max-width:350px;">
+                    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample-@item.Id" role="button" aria-expanded="false" aria-controls="collapseExample-@item.Id">
+                        Projets
+                    </a>
+                    <div class="collapse" id="collapseExample-@item.Id" >
+                        @foreach (var p in ViewBag.ProjetsList)
+                        {
+                            
                                 @if (p.Client.Id == item.Id)
                                 {
-                                <td>
-                                    @p.Nom
-                                </td>
-                                <td>
-                                    <a asp-controller="Projets" asp-action="Edit" asp-route-id="@p.Id">Edit</a> |
-                                    <a asp-controller="Projets" asp-action="Details" asp-route-id="@p.Id">Details</a> |
-                                    <a asp-controller="Projets" asp-action="Delete" asp-route-id="@p.Id">Delete</a> |
-                                </td>
+                                    <div>
+                                        @p.Nom
+                                    
+                                        <a asp-controller="Projets" asp-action="Edit" asp-route-id="@p.Id">Edit</a> |
+                                        <a asp-controller="Projets" asp-action="Details" asp-route-id="@p.Id">Details</a> |
+                                        <a asp-controller="Projets" asp-action="Delete" asp-route-id="@p.Id">Delete</a> |
+                                    </div>
+
                                 }
-                            </tr>
-                            }
-                        </table>
+                            
+                        }
+                        <div>
+                            
+                                <a asp-controller="Projets" asp-action="Create" asp-route-id="@item.Id">+Projet</a>
+                            
+                        </div>
+                    </div>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Login)
@@ -57,12 +63,13 @@
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+
                 </td>
 
             </tr>
         }
     </tbody>
-    
+
 </table>
+

@@ -24,22 +24,33 @@ namespace Hotline.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index(int? pageNumber,string sortOrder)
         {
-            ViewData["ClientSortParm"] = String.IsNullOrEmpty(sortOrder) ? "client_desc" : "";
-            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
-            ViewData["StatutSortParm"] = String.IsNullOrEmpty(sortOrder) ? "statut_desc" : "";
-           
+            ViewData["ClientSortParamDesc"] = String.IsNullOrEmpty(sortOrder) ? "client_desc" : "";
+            ViewData["ClientSortParamAsc"] = String.IsNullOrEmpty(sortOrder) ? "client_asc" : "";
+
+            ViewData["DateSortParamDesc"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["DateSortParamAsc"] = sortOrder == "Date" ? "date_asc" : "Date";
+
+            ViewData["StatutSortParamDesc"] = String.IsNullOrEmpty(sortOrder) ? "statut_desc" : "";
+            ViewData["StatutSortParamAsc"] = String.IsNullOrEmpty(sortOrder) ? "statut_asc" : "";
+
             var reclamations = _context.Reclamations.Include(c => c.Client).Where(r=> r.Numero != 0);
 
             switch (sortOrder)
             {
-                case "client_desc":
+                case "client_asc":
                     reclamations = reclamations.OrderBy(r => r.Client.Login);
                     break;
-                case "statut_des":
+                case "client_desc":
+                    reclamations = reclamations.OrderByDescending(r => r.Client.Login);
+                    break;
+                case "statut_desc":
                     reclamations = reclamations.OrderBy(r => r.DateSoumission);
                     break;
                 case "date_desc":
                     reclamations = reclamations.OrderByDescending(r => r.Statut);
+                    break;
+                case "date_asc":
+                    reclamations = reclamations.OrderBy(r => r.Statut);
                     break;
                 default:
                     reclamations = reclamations.OrderBy(r => r.DateSoumission);
@@ -108,8 +119,6 @@ namespace Hotline.Controllers
                     reclamation.Responsable = _context.Users.Find(idResponsable);
                     reclamation.Statut = "Afféctée";
                     reclamation.DateAffectation = DateTime.Now;
-
-                    var email = reclamation.Client.Email;
 
                     _context.Update(reclamation);
                     await _context.SaveChangesAsync();

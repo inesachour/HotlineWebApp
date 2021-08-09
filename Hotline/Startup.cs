@@ -38,15 +38,7 @@ namespace Hotline
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
-            /*.AddAuthentication("CookieAuth").AddCookie("CookieAuth", config => {
-               
-            });*/
-            //services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
-
             /*services.AddDefaultIdentity<IdentityUser>()
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<AppDbContext>();
-
             services.AddIdentity<IdentityUser, IdentityRole>(config =>
             {
                 config.Password.RequireDigit = false;

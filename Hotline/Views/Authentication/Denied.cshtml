@@ -4,4 +4,11 @@
 @{
 }
 
-<p> Acces Interdit </p>
+@if (ViewData["accessError"] != null)
+{
+    <p class="alert">@ViewData["error"]</p>
+}
+else
+{
+    <p class="alert"> Acces Interdit </p>
+}

@@ -28,7 +28,10 @@
                 @Html.DisplayFor(modelItem => item.Login)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Admin)
+                @if (item.Admin == true)
+                {<h4>&#10004;</h4>}
+                else 
+                {<h4>&#10006;</h4>}
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -18,8 +18,10 @@
             <th>
                 Description
             </th>
-            <th>
-                Projet
+            <th class="row">
+                <p>Projet</p>
+                <a asp-route-sortOrder="@ViewData["ProjetSortParamAsc"]">&#9650;</a>
+                <a asp-route-sortOrder="@ViewData["ProjetSortParamDesc"]">&#9660;</a>
             </th>
             <th>
                 Domaine
@@ -29,6 +31,8 @@
             </th>
             <th>
                 Statut
+                <a asp-route-sortOrder="@ViewData["StatutSortParamAsc"]">&#9650;</a>
+                <a asp-route-sortOrder="@ViewData["StatutSortParamDesc"]">&#9660;</a>
             </th>
             <th>
                 Date d'affectation

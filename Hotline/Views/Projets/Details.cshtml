@@ -10,13 +10,25 @@
     <h4>Projet</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Nom)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Nom)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Domaines)
+        </dt>
     </dl>
+    <ul>
+        @foreach (var domaine in Model.Domaines)
+        {
+
+            <li class="col-sm-10">
+                @domaine.Nom
+            </li>
+        }
+    </ul>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |

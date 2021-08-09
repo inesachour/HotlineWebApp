@@ -9,6 +9,7 @@ using Hotline.Data;
 using Hotline.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using System.Collections.ObjectModel;
 
 namespace Hotline.Controllers
 {
@@ -23,11 +24,37 @@ namespace Hotline.Controllers
 
         // GET: Reclamations
         [Authorize(Roles = "Client")]
-        public async Task<IActionResult> Index(int? pageNumber)
+        public async Task<IActionResult> Index(int? pageNumber,string sortOrder)
         {
+            ViewData["StatutSortParamDesc"] = String.IsNullOrEmpty(sortOrder) ? "statut_desc" : "";
+            ViewData["StatutSortParamAsc"] = String.IsNullOrEmpty(sortOrder) ? "statut_asc" : "";
+
+            ViewData["ProjetSortParamAsc"] = String.IsNullOrEmpty(sortOrder) ? "projet_asc" : "";
+            ViewData["ProjetSortParamDesc"] = String.IsNullOrEmpty(sortOrder) ? "projet_desc" : "";
+
+
             var reclamations = _context.Reclamations.Include(r => r.Projet)
                 .Include(r => r.Domaine)
                 .Where(r => r.Client.Login == User.Identity.Name);
+
+            switch (sortOrder)
+            {
+                case "statut_desc":
+                    reclamations = reclamations.OrderByDescending(r => r.Statut);
+                    break;
+                case "statut_asc":
+                    reclamations = reclamations.OrderBy(r => r.Statut);
+                    break;
+                case "projet_desc":
+                    reclamations = reclamations.OrderByDescending(r => r.Projet.Nom);
+                    break;
+                case "projet_asc":
+                    reclamations = reclamations.OrderBy(r => r.Projet.Nom);
+                    break;
+                default:
+                    reclamations = reclamations.OrderBy(r => r.DateSoumission);
+                    break;
+            }
             int pageSize = 8;
             return View(await PaginatedList<Reclamation>.CreateAsync(reclamations.AsNoTracking(), pageNumber ?? 1, pageSize));
 
@@ -57,9 +84,6 @@ namespace Hotline.Controllers
         public IActionResult Create(int? projetId)
         {
             var projets = _context.Projets.Where(p => p.Client.Login == User.Identity.Name);
-            //var domaines = (from d in _context.Domaines
-            //select d).ToList(); //addwhere Client ==Client
-            //var domaines = _context.Domaines; //FIX THIIIIIIIIIIIS domaine for every Projet chosen ?
             if (projetId.HasValue)
             {
                 var domaines = _context.Domaines.Where(d => d.Projet.Id == projetId);

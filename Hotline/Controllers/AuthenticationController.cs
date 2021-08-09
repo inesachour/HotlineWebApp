@@ -115,7 +115,7 @@ namespace Hotline.Controllers
         }
 
 
-        [Authorize(Roles ="Client")]
+        [Authorize(Roles ="Client,Admin")]
         [HttpGet("account")]
         public async Task<IActionResult> AccountClient(int? id)
         {
@@ -134,20 +134,6 @@ namespace Hotline.Controllers
                 return Redirect("denied");
             }
             return View(client);
-        }
-
-        [Authorize]
-        [HttpGet("account/modify")]
-        public IActionResult Modify()
-        {
-            return View();
-        }
-
-        [Authorize]
-        [HttpPost("account/modify")]
-        public async Task<IActionResult> Modify2()
-        {
-            return View();
         }
 
 

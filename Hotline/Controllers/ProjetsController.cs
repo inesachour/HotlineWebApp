@@ -34,7 +34,7 @@ namespace Hotline.Controllers
                 return NotFound();
             }
 
-            var projet = await _context.Projets
+            var projet = await _context.Projets.Include(p=>p.Domaines)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (projet == null)
             {
@@ -49,6 +49,7 @@ namespace Hotline.Controllers
         {
             var clients = _context.Clients;
             ViewBag.ClientsList = clients;
+
             return View();
         }
 
@@ -64,7 +65,6 @@ namespace Hotline.Controllers
                 var i = 1;
                 while (! string.IsNullOrEmpty(HttpContext.Request.Form["domaine" + i]))
                 {
-                    projet.Nom = "DEJA ";
                     Domaine d = new Domaine();
                     d.Nom = HttpContext.Request.Form["domaine"+i];
                     d.Projet = projet;
@@ -72,7 +72,6 @@ namespace Hotline.Controllers
                     projet.Domaines.Add(d);
                     i++;
                 }
-
                 projet.Client =_context.Clients.Find(Int32.Parse(HttpContext.Request.Form["client"]));
                 _context.Add(projet);
                 await _context.SaveChangesAsync();
@@ -90,6 +89,7 @@ namespace Hotline.Controllers
             }
 
             var projet = await _context.Projets.FindAsync(id);
+            ViewBag.DomainesList = _context.Domaines.Where(d => d.Projet.Id == id);
             if (projet == null)
             {
                 return NotFound();
@@ -113,6 +113,16 @@ namespace Hotline.Controllers
             {
                 try
                 {
+                     var i = 1;
+                while (! string.IsNullOrEmpty(HttpContext.Request.Form["domaine" + i]))
+                {
+                    Domaine d = new Domaine();
+                    d.Nom = HttpContext.Request.Form["domaine"+i];
+                    d.Projet = projet;
+                    _context.Domaines.Add(d);
+                    projet.Domaines.Add(d);
+                    i++;
+                }
                     _context.Update(projet);
                     await _context.SaveChangesAsync();
                 }
