@@ -10,40 +10,52 @@
     <h4>Reclamation</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Numero)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Numero)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Projet)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Projet.Nom)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Domaine)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Domaine.Nom)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Description)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DateSoumission)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DateSoumission)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Statut)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Statut)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateAffectation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateAffectation)
-        </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DateResolution)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DateResolution)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Solution)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Solution)
         </dd>
     </dl>

@@ -58,10 +58,15 @@ namespace Hotline.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nom,Client,Domaines")] Projet projet)
+        public async Task<IActionResult> Create([Bind("Nom,Client,Domaines")] Projet projet)
         {
             if (ModelState.IsValid)
             {
+
+                projet.Client = _context.Clients.Find(Int32.Parse(HttpContext.Request.Form["client"]));
+                _context.Add(projet);
+                _context.SaveChanges();
+
                 var i = 1;
                 while (! string.IsNullOrEmpty(HttpContext.Request.Form["domaine" + i]))
                 {
@@ -72,12 +77,10 @@ namespace Hotline.Controllers
                     projet.Domaines.Add(d);
                     i++;
                 }
-                projet.Client =_context.Clients.Find(Int32.Parse(HttpContext.Request.Form["client"]));
-                _context.Add(projet);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(projet);
+            return RedirectToAction("Index","Clients");
         }
 
         // GET: Projets/Edit/5

@@ -7,28 +7,34 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Client</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Login)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Login)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    @if (User.IsInRole("Admin"))
-    {
-        <a asp - action = "Index" > Back to List</a>
-    }
+
+    <div class="row">
+        <div class="col-sm-2">
+            <button class="btn btn-secondary btn-block mb-0 rounded-0" style="height:15vh" disabled>Compte</button>
+            <a class="btn btn-primary btn-block mt-0 pb-0 rounded-0" style="height:15vh" asp-action="Edit" asp-route-id="@Model.Id">
+                Modifier Compte
+            </a>
+            <a class="btn btn-primary btn-block mt-0 rounded-0" style="height:15vh" asp-action="EditPassword" asp-route-id="@Model.Id">
+                Modifier mot de passe
+            </a>
+            
+
+        </div>
+        <div class="col-sm-5 border-right border-bottom border-top"  >
+            <h2 class="text-center mb-5">Compte</h2>
+
+            <h3>@Html.DisplayNameFor(model => model.Login)</h3>
+            <p>@Html.DisplayFor(model => model.Login)</p>
+            <h3>@Html.DisplayNameFor(model => model.Email)</h3>
+            <p>@Html.DisplayFor(model => model.Email)</p>
+        </div>
+        <div>
+     </div>
+    </div>
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-action="Index"> Back to List</a>
+            }
 
 </div>

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hotline.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210730081935_Setup")]
-    partial class Setup
+    [Migration("20210810145946_required-fix")]
+    partial class requiredfix
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,6 +29,7 @@ namespace Hotline.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Login")
@@ -52,9 +53,10 @@ namespace Hotline.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Nom")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProjetId")
+                    b.Property<int>("ProjetId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -75,6 +77,7 @@ namespace Hotline.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Nom")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -104,6 +107,7 @@ namespace Hotline.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("DomaineId")
@@ -160,8 +164,10 @@ namespace Hotline.Migrations
             modelBuilder.Entity("Hotline.Models.Domaine", b =>
                 {
                     b.HasOne("Hotline.Models.Projet", "Projet")
-                        .WithMany()
-                        .HasForeignKey("ProjetId");
+                        .WithMany("Domaines")
+                        .HasForeignKey("ProjetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Projet");
                 });
@@ -169,7 +175,7 @@ namespace Hotline.Migrations
             modelBuilder.Entity("Hotline.Models.Projet", b =>
                 {
                     b.HasOne("Hotline.Models.Client", "Client")
-                        .WithMany()
+                        .WithMany("Projets")
                         .HasForeignKey("ClientId");
 
                     b.Navigation("Client");
@@ -200,6 +206,16 @@ namespace Hotline.Migrations
                     b.Navigation("Projet");
 
                     b.Navigation("Responsable");
+                });
+
+            modelBuilder.Entity("Hotline.Models.Client", b =>
+                {
+                    b.Navigation("Projets");
+                });
+
+            modelBuilder.Entity("Hotline.Models.Projet", b =>
+                {
+                    b.Navigation("Domaines");
                 });
 #pragma warning restore 612, 618
         }

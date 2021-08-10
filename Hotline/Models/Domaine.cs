@@ -10,7 +10,9 @@ namespace Hotline.Models
     {
         [Key]
         public int Id { get; set; }
+        [Required]
         public string Nom { get; set; }
+        [Required]
         public Projet Projet { get; set; }
     }
 }

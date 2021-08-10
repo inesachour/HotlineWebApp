@@ -10,6 +10,7 @@ namespace Hotline.Models
     {
         [Key]
         public int Id { get; set; }
+        [Required(ErrorMessage = "Ce champs est requis")]
         public string Nom { get; set; }
         public Client Client { get; set; }
         public ICollection<Domaine> Domaines { get; set; }

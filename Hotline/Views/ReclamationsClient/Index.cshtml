@@ -35,12 +35,6 @@
                 <a asp-route-sortOrder="@ViewData["StatutSortParamDesc"]">&#9660;</a>
             </th>
             <th>
-                Date d'affectation
-            </th>
-            <th>
-                Date de résolution
-            </th>
-            <th>
                 Solution
             </th>
 
@@ -68,12 +62,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Statut)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateAffectation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateResolution)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Solution)

@@ -133,10 +133,18 @@ namespace Hotline.Controllers
                     }
                     else
                     {
+                        var pwd = Request.Form["pwd"];
                         var passwordHasher = new PasswordHasher<string>();
-                        client.Password = passwordHasher.HashPassword(null, client.Password);
-                        _context.Update(client);
-                        await _context.SaveChangesAsync();
+                        if ((passwordHasher.VerifyHashedPassword(null,client.Password,pwd)) == 0)
+                        {
+                            TempData["Error"] = "Mot de passe incorrect.";
+                            return View("Edit",client);
+                        }
+                        else
+                        {
+                            _context.Update(client);
+                            await _context.SaveChangesAsync();
+                        }
                     }
                 }
                 catch (DbUpdateConcurrencyException)
@@ -152,6 +160,84 @@ namespace Hotline.Controllers
                 }
                 if(User.IsInRole("Client"))
                     return RedirectToAction("Index","Home");
+
+                return RedirectToAction(nameof(Index));
+            }
+            return View(client);
+        }
+
+        // GET: Clients/EditPassword/5
+        [Authorize(Roles = "Admin,Client")]
+        public async Task<IActionResult> EditPassword(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var client = await _context.Clients.FindAsync(id);
+            if (client == null)
+            {
+                return NotFound();
+            }
+            if (User.IsInRole("Client") && client.Id != id)
+            {
+                return Redirect("denied");
+            }
+            return View(client);
+        }
+
+        // POST: Clients/EditPassword/5
+        [Authorize(Roles = "Admin,Client")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditPassword(int id, [Bind("Id,Login,Password,Email")] Client client)
+        {
+            if (id != client.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (User.IsInRole("Client") && client.Id != id)
+                    {
+                        return Redirect("denied");
+                    }
+                    else
+                    {
+                        var newpwd = Request.Form["newpwd"];
+                        var oldpwd = Request.Form["oldpwd"];
+                        var passwordHasher = new PasswordHasher<string>();
+                        if ((passwordHasher.VerifyHashedPassword(null, client.Password, oldpwd)) == 0)
+                        {
+                            TempData["Error"] = "Mot de passe incorrect.";
+                            return View("EditPassword", client);
+                        }
+                        else
+                        {
+
+                            client.Password = passwordHasher.HashPassword(null,newpwd);
+                            _context.Update(client);
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ClientExists(client.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                if (User.IsInRole("Client"))
+                    return RedirectToAction("Index", "Home");
 
                 return RedirectToAction(nameof(Index));
             }

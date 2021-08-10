@@ -15,6 +15,7 @@ namespace Hotline.Models
         [DataType(DataType.Password)]
         [Required]
         public string Password { get; set; }
+        [Required]
         public string Email { get; set; }
         public ICollection<Projet> Projets { get; set; }
 

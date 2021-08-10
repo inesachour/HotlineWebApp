@@ -89,7 +89,7 @@ namespace Hotline.Controllers
                     _context.Update(reclamation);
                     var reclamations = _context.Reclamations.Include(c => c.Client).Where(r => r.Numero == reclamation.Numero);
                     var client= reclamations.AsNoTracking().FirstOrDefault().Client;
-                    await _mailingService.SendEmail(client.Email, "Réclamation résolue", "Test2");
+                    await _mailingService.SendEmail(client.Email, "Réclamation résolue", "La réclamation numéro "+reclamation.Numero+" a été résolue. Veuillez consulter notre site web");
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

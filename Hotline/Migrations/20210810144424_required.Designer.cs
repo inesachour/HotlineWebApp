@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hotline.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210730114955_Adding-Collection")]
-    partial class AddingCollection
+    [Migration("20210810144424_required")]
+    partial class required
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,6 +29,7 @@ namespace Hotline.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Login")
@@ -52,9 +53,10 @@ namespace Hotline.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Nom")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProjetId")
+                    b.Property<int>("ProjetId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -71,10 +73,11 @@ namespace Hotline.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ClientId")
+                    b.Property<int>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<string>("Nom")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -104,6 +107,7 @@ namespace Hotline.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("DomaineId")
@@ -161,7 +165,9 @@ namespace Hotline.Migrations
                 {
                     b.HasOne("Hotline.Models.Projet", "Projet")
                         .WithMany("Domaines")
-                        .HasForeignKey("ProjetId");
+                        .HasForeignKey("ProjetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Projet");
                 });
@@ -170,7 +176,9 @@ namespace Hotline.Migrations
                 {
                     b.HasOne("Hotline.Models.Client", "Client")
                         .WithMany("Projets")
-                        .HasForeignKey("ClientId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Client");
                 });

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Hotline.Migrations
 {
-    public partial class Setup : Migration
+    public partial class setup : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,7 @@ namespace Hotline.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Login = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -43,7 +43,7 @@ namespace Hotline.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ClientId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -63,8 +63,8 @@ namespace Hotline.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProjetId = table.Column<int>(type: "int", nullable: true)
+                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProjetId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,7 +74,7 @@ namespace Hotline.Migrations
                         column: x => x.ProjetId,
                         principalTable: "Projets",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -86,7 +86,7 @@ namespace Hotline.Migrations
                     ClientId = table.Column<int>(type: "int", nullable: true),
                     ProjetId = table.Column<int>(type: "int", nullable: true),
                     DomaineId = table.Column<int>(type: "int", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateSoumission = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Statut = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateAffectation = table.Column<DateTime>(type: "datetime2", nullable: true),

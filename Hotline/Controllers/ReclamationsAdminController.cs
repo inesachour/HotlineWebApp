@@ -22,7 +22,7 @@ namespace Hotline.Controllers
 
         // GET: ReclamationsAdmin
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Index(int? pageNumber,string sortOrder)
+        public async Task<IActionResult> Index(int? pageNumber,string sortOrder,bool cloturé)
         {
             ViewData["ClientSortParamDesc"] = String.IsNullOrEmpty(sortOrder) ? "client_desc" : "";
             ViewData["ClientSortParamAsc"] = String.IsNullOrEmpty(sortOrder) ? "client_asc" : "";
@@ -34,7 +34,14 @@ namespace Hotline.Controllers
             ViewData["StatutSortParamAsc"] = String.IsNullOrEmpty(sortOrder) ? "statut_asc" : "";
 
             var reclamations = _context.Reclamations.Include(c => c.Client).Where(r=> r.Numero != 0);
-
+            if (cloturé == true)
+            {
+                reclamations.Where(r => r.Statut == "Résolue");
+            }
+            else
+            {
+                reclamations.Where(r => r.Statut != "Résolue");
+            }
             switch (sortOrder)
             {
                 case "client_asc":
@@ -59,6 +66,7 @@ namespace Hotline.Controllers
             int pageSize = 8;
             return View(await PaginatedList<Reclamation>.CreateAsync(reclamations.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
+
 
         // GET: ReclamationsAdmin/Details/5
         [Authorize(Roles = "Admin")]

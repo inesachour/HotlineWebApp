@@ -12,6 +12,15 @@
                 Numero
             </th>
             <th>
+                Client
+            </th>
+            <th>
+                Projet
+            </th>
+            <th>
+                Domaine
+            </th>
+            <th>
                 Description
             </th>
             <th>
@@ -22,12 +31,6 @@
             </th>
             <th>
                 Date d'afféctation
-            </th>
-            <th>
-                Date de résolution
-            </th>
-            <th>
-                Solution
             </th>
             <th></th>
         </tr>
@@ -40,6 +43,15 @@
                 @Html.DisplayFor(modelItem => item.Numero)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Client.Login)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Projet.Nom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Domaine.Nom)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
@@ -50,12 +62,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DateAffectation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateResolution)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Solution)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Numero">Edit</a> |

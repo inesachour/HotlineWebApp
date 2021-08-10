@@ -4,14 +4,16 @@ using Hotline.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Hotline.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210810152540_required-fix2")]
+    partial class requiredfix2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,7 +73,7 @@ namespace Hotline.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ClientId")
+                    b.Property<int>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<string>("Nom")
@@ -174,7 +176,9 @@ namespace Hotline.Migrations
                 {
                     b.HasOne("Hotline.Models.Client", "Client")
                         .WithMany("Projets")
-                        .HasForeignKey("ClientId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Client");
                 });
