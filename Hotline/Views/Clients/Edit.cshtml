@@ -6,29 +6,25 @@
 
 }
 
-<h1>Edit</h1>
-
-<h4>Client</h4>
-
 @if (!string.IsNullOrEmpty(error))
 {
     <h3 class="alert-danger"> @error </h3>
 }
 
-<div class="row">
-    <div class="col-sm-2">
-        <a class="btn btn-primary btn-block mt-0 pb-0 rounded-0" style="height:15vh" asp-action="Details" asp-route-id="@Model.Id">
+<div class="row p-0 border-0 mt-5" id="center">
+    <div class="col-sm-4 p-0">
+        <a class="btn btn-primary btn-block mt-0 pb-0 rounded-0" style="height:16vh" asp-action="Details" asp-route-id="@Model.Id">
             Compte
         </a>
-        <button class="btn btn-secondary btn-block mb-0 mt-0 rounded-0" style="height:15vh" disabled>Modifier Compte</button>
-        <a class="btn btn-primary btn-block mt-0 rounded-0" style="height:15vh" asp-action="EditPassword" asp-route-id="@Model.Id">
+        <button class="btn btn-light btn-block mb-0 mt-0 rounded-0" style="height:16vh" disabled>Modifier Compte</button>
+        <a class="btn btn-primary btn-block mt-0 rounded-0" style="height:16vh" asp-action="EditPassword" asp-route-id="@Model.Id">
             Modifier mot de passe
         </a>
 
     </div>
-    <div class="col-sm-5 border">
+    <div class="col-sm-7 border ">
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-12">
                 <form asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="Id" />
@@ -50,8 +46,8 @@
                         <input name="pwd" type="password" class="form-control" />
                         <span class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-primary" />
+                    <div class="form-group d-flex justify-content-center">
+                        <input type="submit" value="Enregistrer" class="btn btn-primary" />
                     </div>
                 </form>
             </div>
@@ -59,12 +55,6 @@
     </div>
 </div>
 
-<div>
-    @if (User.IsInRole("Admin"))
-    {
-        <a asp-action="Index">Back to List</a>
-    }
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

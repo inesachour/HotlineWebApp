@@ -1,39 +1,35 @@
 ﻿@model Hotline.Models.User
 
 @{
-    ViewData["Title"] = "View";
+    ViewData["Title"] = "Details";
 }
 
-<h1>View</h1>
+<div>
 
-<div>
-    <h4>User</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Login)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Login)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Password)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Password)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Admin)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Admin)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    @if (User.IsInRole("Admin"))
-    {
-        <a asp-action="Index">Back to List</a>
-    }
+    <div class="row p-0 border-0 mt-5" id="center">
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="Index"><i class="fas fa-arrow-left fa-2x"></i></a>
+        }
+        <div class="col-sm-4 p-0">
+            <button class="btn btn-light btn-block mb-0 rounded-0" style="height:15vh" disabled>Compte</button>
+            <a class="btn btn-primary btn-block mt-0 mb-0 rounded-0" style="height:15vh" asp-action="Edit" asp-route-id="@Model.Id">
+                Modifier Compte
+            </a>
+            <a class="btn btn-primary btn-block mt-0 rounded-0" style="height:15vh" asp-action="EditPassword" asp-route-id="@Model.Id">
+                Modifier mot de passe
+            </a>
+        </div>
+        <div class="col-sm-7 border-right border-bottom border-top pl-0 ml-3">
+            <h2 class="text-center mb-5">Compte</h2>
+
+            <h3>@Html.DisplayNameFor(model => model.Login)</h3>
+            <p>@Html.DisplayFor(model => model.Login)</p>
+            <h3>@Html.DisplayNameFor(model => model.Admin)</h3>
+            <p>@Html.DisplayFor(model => model.Admin)</p>
+        </div>
+        <div>
+        </div>
+    </div>
+
 </div>

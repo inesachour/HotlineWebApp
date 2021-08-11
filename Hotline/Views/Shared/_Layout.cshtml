@@ -6,67 +6,68 @@
     <title>Mavision - Hotline </title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/site3.css" />
+    <link rel="stylesheet" href="~/css/site2.css" />
     <script src="https://kit.fontawesome.com/e08ca8bd00.js" crossorigin="anonymous"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
 
 </head>
 <body>
     <header>
-        @if (!ViewData["Title"].Equals("Login")) {
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                <img src="~/images/mav.png" class="d-inline-block align-top" alt="">
-            </a>
+        @if (!ViewData["Title"].Equals("Login"))
+        {
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/mav.png" class="d-inline-block align-top" alt="">
+                </a>
 
-            <div class="container">
-                @if (User.Identity.IsAuthenticated == false)
-                {
-                    <a asp-action="Login" asp-controller="Authentication" class="btn btn-secondary ml-auto mr-1">Se Connecter</a>
-                }
-                else
-                {
-                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse dropleft">
-                        <ul class="navbar-nav">
+                <div class="container">
+                    @if (User.Identity.IsAuthenticated == false)
+                    {
+                        <a asp-action="Login" asp-controller="Authentication" class="btn btn-secondary ml-auto mr-1">Se Connecter</a>
+                    }
+                    else
+                    {
+                        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse dropleft">
+                            <ul class="navbar-nav">
 
-                            <li class="dropdown">
-                                <button class="btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-list"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                    @if (User.IsInRole("Client"))
-                                    {
-                                        <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="ReclamationsClient" asp-action="Index">Reclamations</a>
-                                        <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Clients" asp-action="Details" asp-route-id="@Int32.Parse(User.FindFirst("Id").Value)">Compte</a>
-                                    }
+                                <li class="dropdown">
+                                    <button class="btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-list"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        @if (User.IsInRole("Client"))
+                                        {
+                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="ReclamationsClient" asp-action="Index">Reclamations</a>
+                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Clients" asp-action="Details" asp-route-id="@Int32.Parse(User.FindFirst("Id").Value)">Compte</a>
+                                        }
 
-                                    @if (User.IsInRole("User"))
-                                    {
-                                        <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="ReclamationsUser" asp-action="Index">Reclamations</a>
-                                        <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@Int32.Parse(User.FindFirst("Id").Value)">Compte</a>
-                                    }
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                        <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="ReclamationsAdmin" asp-action="Index">Reclamations</a>
-                                        <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="ReclamationsUser" asp-action="Index">Reclamations associées</a>
-                                        <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Users" asp-action="Index">Comptes Users</a>
-                                        <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Clients" asp-action="Index">Comptes Clients</a>
-                                        <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@Int32.Parse(User.FindFirst("Id").Value)">Compte</a>
+                                        @if (User.IsInRole("User"))
+                                        {
+                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="ReclamationsUser" asp-action="Index">Reclamations</a>
+                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@Int32.Parse(User.FindFirst("Id").Value)">Compte</a>
+                                        }
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="ReclamationsAdmin" asp-action="Index">Reclamations</a>
+                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="ReclamationsUser" asp-action="Index">Reclamations Affectées</a>
+                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Users" asp-action="Index">Comptes Users</a>
+                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Clients" asp-action="Index">Comptes Clients</a>
+                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@Int32.Parse(User.FindFirst("Id").Value)">Compte</a>
 
-                                    }
-                                    <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Authentication" asp-action="Logout">Logout</a>
-                                </div>
-                            </li>
+                                        }
+                                        <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Authentication" asp-action="Logout">Logout</a>
+                                    </div>
+                                </li>
 
-                        </ul>
-                    </div>
-                }
-            </div>
-        </nav>
+                            </ul>
+                        </div>
+                    }
+                </div>
+            </nav>
         }
     </header>
 
-    <main role="main" class="pb-3">
+    <main role="main" class="">
         @if (ViewData["Title"] as string != "Acceuil" && ViewData["Title"] as string != "Login")
         {
             <div class="container">
@@ -80,7 +81,23 @@
 
     </main>
 
-    
+    <div class="modal" tabindex="-1" role="dialog" id="form-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

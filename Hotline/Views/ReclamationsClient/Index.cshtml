@@ -67,9 +67,12 @@
                 @Html.DisplayFor(modelItem => item.Solution)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Numero">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Numero">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Numero">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.Numero">Details</a>
+
+                @if (item.Statut == "Soumise")
+                {
+                    <button class="btn btn-danger" onclick="showInPopup('@Url.Action("Delete","ReclamationsClient",item,Context.Request.Scheme)', 'Supprimer Reclamation')"><i class="fas fa-trash"></i></button>
+                }
             </td>
         </tr>
         }

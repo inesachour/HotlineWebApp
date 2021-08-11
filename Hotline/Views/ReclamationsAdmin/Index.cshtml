@@ -6,22 +6,30 @@
 
 <h1>Index</h1>
 
-<a asp-route-cloturé=@true>Réclamations Cloturées</a>
-<a asp-route-cloturé=@false>Réclamations non Cloturées</a>
+<div class="row mb-2">
+    <div class="col-sm pr-0 pl-4">
+        <a class="btn btn-primary btn-block mr-0 rounded-0" asp-action="Index">Réclamations en cours</a>
+    </div>
+    <div class="col-sm pl-1 pr-1">
+        <a class="btn btn-primary btn-block ml-0 rounded-0" asp-route-résolue=@true>Réclamations Résolues</a>
+    </div>
+    <div class="col-sm pl-0 pr-4">
+        <a class="btn btn-primary btn-block ml-0 rounded-0" asp-route-cloturé=@true>Réclamations Cloturées</a>
+    </div>
+</div>
 
-<table class="table">
+
+
+<table class="table border">
     <thead>
         <tr>
-            <th >
+            <th>
                 Numero
             </th>
             <th>
                 Client
                 <a asp-route-sortOrder="@ViewData["ClientSortParamAsc"]">&#9650;</a>
                 <a asp-route-sortOrder="@ViewData["ClientSortParamDesc"]">&#9660;</a>
-            </th>
-            <th>
-                Description
             </th>
             <th>
                 Date de soumission
@@ -32,15 +40,6 @@
                 Statut
                 <a asp-route-sortOrder="@ViewData["StatutSortParamAsc"]">&#9650;</a>
                 <a asp-route-sortOrder="@ViewData["StatutSortParamDesc"]">&#9660;</a>
-            </th>
-            <th>
-                Date d'affectation
-            </th>
-            <th>
-               Date de resolution
-            </th>
-            <th>
-                Solution
             </th>
             <th>
                 Responsable
@@ -59,31 +58,24 @@
                     @Html.DisplayFor(modelItem => item.Client.Login)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.DateSoumission)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Statut)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DateAffectation)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateResolution)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Solution)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Responsable.Login)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Numero">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Numero">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Numero">Delete</a>
- 
+                    @if (ViewData["recs"] as string == "Autre")
+                    {
+                        if (item.Statut == "Soumise")
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Numero">Affecter</a>
+                        }
+                        <a asp-action="Details" asp-route-id="@item.Numero"> Details </a>
+                    }
+
                 </td>
             </tr>
         }

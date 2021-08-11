@@ -2,41 +2,61 @@
 
 @{
     ViewData["Title"] = "Edit";
+    var error = TempData["Error"] as string;
+
 }
 
-<h1>Edit</h1>
-
-<h4>User</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Login" class="control-label"></label>
-                <input asp-for="Login" class="form-control" />
-                <span asp-validation-for="Login" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" type="password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
+@if (!string.IsNullOrEmpty(error))
+{
+    <h3 class="alert-danger "> @error </h3>
+}
+<
+<div class="row p-0 border-0 mt-5" id="center">
     @if (User.IsInRole("Admin"))
     {
-    <a asp-action="Index">Back to List</a>
+        <a asp-action="Index"><i class="fas fa-arrow-left fa-2x"></i></a>
     }
+<div class="col-sm-4 p-0">
+    <a class="btn btn-primary btn-block mt-0 pb-0 rounded-0" style="height:16vh" asp-action="Details" asp-route-id="@Model.Id">
+        Compte
+    </a>
+    <button class="btn btn-light btn-block mb-0 mt-0 rounded-0" style="height:16vh" disabled>Modifier Compte</button>
+    <a class="btn btn-primary btn-block mt-0 rounded-0" style="height:16vh" asp-action="EditPassword" asp-route-id="@Model.Id">
+        Modifier mot de passe
+    </a>
+
+</div>
+    <div class="col-sm-7 border ">
+        <div class="row">
+            <div class="col-md-12">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="Password" />
+                    <input type="hidden" asp-for="Admin" />
+
+                    <div class="form-group">
+                        <label asp-for="Login" class="control-label"></label>
+                        <input asp-for="Login" class="form-control" />
+                        <span asp-validation-for="Login" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label">Mot de passe actuel</label>
+                        <input name="pwd" type="password" class="form-control" />
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group d-flex justify-content-center">
+                        <input type="submit" value="Enregistrer" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+

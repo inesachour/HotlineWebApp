@@ -23,14 +23,15 @@ namespace Hotline.Controllers
 
         // GET: Clients
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? pageNumber)
         {
-            ViewBag.ProjetsList = _context.Projets;
-            return View(await _context.Clients.ToListAsync());
+            ViewBag.ProjetsList = _context.Projets.Include(p=>p.Client).OrderBy(p=>p.Nom);
+            int pageSize = 8;
+            return View(await PaginatedList<Client>.CreateAsync(_context.Clients.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Clients/Details/5
-        [Authorize(Roles = "Admin,Client")]
+        [Authorize(Roles = "Client")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,7 +44,7 @@ namespace Hotline.Controllers
             {
                 return NotFound();
             }
-            else if (User.IsInRole("Client") && client.Id != id)
+            else if (client.Id != id)
             {
                 Redirect("denied");
             }
@@ -73,7 +74,7 @@ namespace Hotline.Controllers
                     if (client.Password.Length < 6)
                     {
                         TempData["Error"] = "Mot de passe trés court";
-                        return View(client);
+                        return RedirectToAction("Create");
                     }
                     var passwordHasher = new PasswordHasher<string>();
                     client.Password = passwordHasher.HashPassword(null, client.Password);
@@ -86,11 +87,11 @@ namespace Hotline.Controllers
                     TempData["Error"] = "Ce compte existe déja";
                 }
             }
-            return View(client);
+            return RedirectToAction("Create");
         }
 
         // GET: Clients/Edit/5
-        [Authorize(Roles = "Admin,Client")]
+        [Authorize(Roles = "Client")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -103,7 +104,7 @@ namespace Hotline.Controllers
             {
                 return NotFound();
             }
-            if (User.IsInRole("Client") && client.Id != id)
+            if (client.Id != id)
             {
                 return Redirect("denied");
             }
@@ -113,7 +114,7 @@ namespace Hotline.Controllers
         // POST: Clients/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Admin,Client")]
+        [Authorize(Roles = "Client")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Login,Password,Email")] Client client)
@@ -127,7 +128,7 @@ namespace Hotline.Controllers
             {
                 try
                 {
-                    if (User.IsInRole("Client") && client.Id != id)
+                    if ( client.Id != id)
                     {
                         return Redirect("denied");
                     }
@@ -158,16 +159,14 @@ namespace Hotline.Controllers
                         throw;
                     }
                 }
-                if(User.IsInRole("Client"))
-                    return RedirectToAction("Index","Home");
+                return RedirectToAction("Index","Home");
 
-                return RedirectToAction(nameof(Index));
             }
             return View(client);
         }
 
         // GET: Clients/EditPassword/5
-        [Authorize(Roles = "Admin,Client")]
+        [Authorize(Roles = "Client")]
         public async Task<IActionResult> EditPassword(int? id)
         {
             if (id == null)
@@ -180,7 +179,7 @@ namespace Hotline.Controllers
             {
                 return NotFound();
             }
-            if (User.IsInRole("Client") && client.Id != id)
+            if (client.Id != id)
             {
                 return Redirect("denied");
             }
@@ -188,7 +187,7 @@ namespace Hotline.Controllers
         }
 
         // POST: Clients/EditPassword/5
-        [Authorize(Roles = "Admin,Client")]
+        [Authorize(Roles = "Client")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPassword(int id, [Bind("Id,Login,Password,Email")] Client client)
@@ -202,7 +201,7 @@ namespace Hotline.Controllers
             {
                 try
                 {
-                    if (User.IsInRole("Client") && client.Id != id)
+                    if (client.Id != id)
                     {
                         return Redirect("denied");
                     }
@@ -218,6 +217,11 @@ namespace Hotline.Controllers
                         }
                         else
                         {
+                            if (newpwd.ToString().Length < 6)
+                            {
+                                TempData["Error"] = "Mot de passe trés court";
+                                return View(client);
+                            }
 
                             client.Password = passwordHasher.HashPassword(null,newpwd);
                             _context.Update(client);
@@ -236,10 +240,7 @@ namespace Hotline.Controllers
                         throw;
                     }
                 }
-                if (User.IsInRole("Client"))
-                    return RedirectToAction("Index", "Home");
-
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
             return View(client);
         }

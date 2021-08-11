@@ -22,7 +22,7 @@ namespace Hotline.Controllers
 
         // GET: ReclamationsAdmin
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Index(int? pageNumber,string sortOrder,bool cloturé)
+        public async Task<IActionResult> Index(int? pageNumber,string sortOrder,bool cloturé,bool résolue)
         {
             ViewData["ClientSortParamDesc"] = String.IsNullOrEmpty(sortOrder) ? "client_desc" : "";
             ViewData["ClientSortParamAsc"] = String.IsNullOrEmpty(sortOrder) ? "client_asc" : "";
@@ -36,11 +36,18 @@ namespace Hotline.Controllers
             var reclamations = _context.Reclamations.Include(c => c.Client).Where(r=> r.Numero != 0);
             if (cloturé == true)
             {
-                reclamations.Where(r => r.Statut == "Résolue");
+                reclamations = reclamations.Where(r => r.Statut == "Cloturée");
+                ViewData["recs"] = "Cloturée";
+            }
+            else if (résolue == true)
+            {
+                reclamations = reclamations.Where(r => r.Statut == "Résolue");
+                ViewData["recs"] = "Résolue";
             }
             else
             {
-                reclamations.Where(r => r.Statut != "Résolue");
+                reclamations = reclamations.Where(r => r.Statut != "Résolue" && r.Statut != "Cloturée");
+                ViewData["recs"] = "Autre";
             }
             switch (sortOrder)
             {
@@ -95,13 +102,17 @@ namespace Hotline.Controllers
             {
                 return NotFound();
             }
-
+            
             var reclamation = await _context.Reclamations.FindAsync(id);
             if (reclamation == null)
             {
                 return NotFound();
             }
-            var users = _context.Users;
+            if (reclamation.Statut != "Soumise")
+            {
+                return RedirectToAction("Index");
+            }
+            var users = _context.Users.OrderBy(u=>u.Login);
             ViewBag.UsersList = users;
             return View(reclamation);
         }
@@ -112,7 +123,7 @@ namespace Hotline.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Numero,Responsable,Description")] Reclamation reclamation,int idResponsalbe)
+        public async Task<IActionResult> Edit(int id, [Bind("Numero,Client,Projet,Domaine,Description,DateSoumission,Statut,DateAffectation,Responsable,DateResolution,Solution")] Reclamation reclamation,int idResponsalbe)
         {
             if (id != reclamation.Numero)
             {
@@ -122,11 +133,12 @@ namespace Hotline.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {
+                { 
                     var idResponsable = Int32.Parse(Request.Form["Responsable"]);
                     reclamation.Responsable = _context.Users.Find(idResponsable);
                     reclamation.Statut = "Afféctée";
-                    reclamation.DateAffectation = DateTime.Now;
+                    var localTimeZone = TimeZoneInfo.FindSystemTimeZoneById("W. Central Africa Standard Time");
+                    reclamation.DateAffectation = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, localTimeZone);
 
                     _context.Update(reclamation);
                     await _context.SaveChangesAsync();

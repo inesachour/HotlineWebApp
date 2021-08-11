@@ -33,9 +33,8 @@ namespace Hotline.Controllers
             ViewData["ProjetSortParamDesc"] = String.IsNullOrEmpty(sortOrder) ? "projet_desc" : "";
 
 
-            var reclamations = _context.Reclamations.Include(r => r.Projet)
-                .Include(r => r.Domaine)
-                .Where(r => r.Client.Login == User.Identity.Name);
+            var reclamations = _context.Reclamations.Include(r => r.Projet).Include(r => r.Domaine)
+                .Where(r => r.Client.Login == User.Identity.Name && r.Statut != "Cloturée");
 
             switch (sortOrder)
             {
@@ -83,14 +82,13 @@ namespace Hotline.Controllers
         [Authorize(Roles = "Client")]
         public IActionResult Create(int? projetId)
         {
-            var projets = _context.Projets.Where(p => p.Client.Login == User.Identity.Name);
+            var projets = _context.Projets.Where(p => p.Client.Login == User.Identity.Name).OrderBy(p=>p.Nom);
             if (projetId.HasValue)
             {
-                var domaines = _context.Domaines.Where(d => d.Projet.Id == projetId);
+                var domaines = _context.Domaines.Where(d => d.Projet.Id == projetId).OrderBy(d=>d.Nom);
                 ViewBag.DomainesList = domaines;
 
             }
-
             ViewBag.ProjetsList = projets;
             return View();
         }
@@ -98,7 +96,7 @@ namespace Hotline.Controllers
 
         public JsonResult GetDomaines(int id)
         {
-            var domaines = _context.Domaines.Include(d => d.Projet).Where(d => d.Projet.Id == id);
+            var domaines = _context.Domaines.Include(d => d.Projet).Where(d => d.Projet.Id == id).OrderBy(d=>d.Nom);
             return Json(new SelectList(domaines, "Id", "Nom"));
         }
 
@@ -109,12 +107,14 @@ namespace Hotline.Controllers
         [Authorize(Roles = "Client")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Numero,Description,DateSoumission,Statut,DateAffectation,DateResolution,Solution")] Reclamation reclamation)
+        public async Task<IActionResult> Create([Bind("Numero,Client,Projet,Domaine,Description,DateSoumission,Statut,DateAffectation,Responsable,DateResolution,Solution")] Reclamation reclamation)
         {
 
             if (ModelState.IsValid)
             {
-                reclamation.DateSoumission = DateTime.Now;
+                var localTimeZone = TimeZoneInfo.FindSystemTimeZoneById("W. Central Africa Standard Time");
+                reclamation.DateSoumission = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, localTimeZone);
+
                 reclamation.Statut = "Soumise";
                 var login = User.FindFirstValue(ClaimTypes.Name); // will give the user's userId
                 var user = _context.Clients.Where(u => u.Login == login).FirstOrDefault();
@@ -127,34 +127,13 @@ namespace Hotline.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(reclamation);
+            return RedirectToAction("Create",reclamation);
         }
 
-
-        // GET: Reclamations/Edit/5
-        [Authorize(Roles = "Client")]
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var reclamation = await _context.Reclamations.FindAsync(id);
-            if (reclamation == null)
-            {
-                return NotFound();
-            }
-            return View(reclamation);
-        }
-
-        // POST: Reclamations/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Authorize(Roles = "Client")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Numero,Description,DateSoumission,Statut,DateAffectation,DateResolution,Solution")] Reclamation reclamation)
+        public async Task<IActionResult> Edit(int id, [Bind("Numero,Client,Projet,Domaine,Description,DateSoumission,Statut,DateAffectation,Responsable,DateResolution,Solution")] Reclamation reclamation)
         {
             if (id != reclamation.Numero)
             {

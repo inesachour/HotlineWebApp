@@ -1,25 +1,32 @@
-﻿@model IEnumerable<Hotline.Models.Client>
+﻿@model PaginatedList<Hotline.Models.Client>
+
 
 @{
     ViewData["Title"] = "Index";
+    var error = TempData["Error"] as string;
+
 }
 
 <h1>Index</h1>
-
+@if (!string.IsNullOrEmpty(error))
+{
+    <h2 class="alert-danger"> @error </h2>
+}
 <p>
-    <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th></th>
             <th>
-                @Html.DisplayNameFor(model => model.Login)
+                Login
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                Email
             </th>
-            <th></th>
+            <th>
+                <a class="btn btn-success" asp-action="Create"><i class="fas fa-plus"></i></a>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -31,27 +38,27 @@
                     <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample-@item.Id" role="button" aria-expanded="false" aria-controls="collapseExample-@item.Id">
                         Projets
                     </a>
-                    <div class="collapse" id="collapseExample-@item.Id" >
+                    <div class="collapse" id="collapseExample-@item.Id">
                         @foreach (var p in ViewBag.ProjetsList)
                         {
-                            
-                                @if (p.Client.Id == item.Id)
-                                {
-                                    <div>
-                                        @p.Nom
-                                    
-                                        <a asp-controller="Projets" asp-action="Edit" asp-route-id="@p.Id">Edit</a> |
-                                        <a asp-controller="Projets" asp-action="Details" asp-route-id="@p.Id">Details</a> |
-                                        <a asp-controller="Projets" asp-action="Delete" asp-route-id="@p.Id">Delete</a> |
-                                    </div>
 
-                                }
-                            
+                            @if (p.Client.Id == item.Id)
+                            {
+                                <div class="row" style="width:700px">
+                                    <p class="col-sm-5">@p.Nom</p>
+
+                                    <a asp-controller="Projets" asp-action="Edit" asp-route-id="@p.Id">Modifer </a> |
+                                    <a asp-controller="Projets" asp-action="Details" asp-route-id="@p.Id">Details </a> |
+                                    <a class="text-info" onclick="showInPopup('@Url.Action("Delete","Projets",item,Context.Request.Scheme)', 'Supprimer Projet')">Suprimer</a>
+                                </div>
+
+                            }
+
                         }
                         <div>
-                            
-                                <a asp-controller="Projets" asp-action="Create" asp-route-id="@item.Id">+Projet</a>
-                            
+
+                            <a asp-controller="Projets" asp-action="Create" asp-route-id="@item.Id">+Projet</a>
+
                         </div>
                     </div>
                 </td>
@@ -62,9 +69,7 @@
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-
+                    <button class="btn btn-danger" onclick="showInPopup('@Url.Action("Delete","Clients",item,Context.Request.Scheme)', 'Supprimer Client')"><i class="fas fa-trash"></i></button>
                 </td>
 
             </tr>
@@ -73,3 +78,20 @@
 
 </table>
 
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>

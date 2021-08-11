@@ -19,13 +19,6 @@ namespace Hotline.Controllers
             _context = context;
         }
 
-        // GET: Projets
-        public async Task<IActionResult> Index(int? id)
-        {
-            var projets = await _context.Projets.ToListAsync();
-            return View(projets);
-        }
-
         // GET: Projets/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -47,7 +40,7 @@ namespace Hotline.Controllers
         // GET: Projets/Create
         public IActionResult Create()
         {
-            var clients = _context.Clients;
+            var clients = _context.Clients.OrderBy(c=>c.Login);
             ViewBag.ClientsList = clients;
 
             return View();
@@ -58,7 +51,7 @@ namespace Hotline.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nom,Client,Domaines")] Projet projet)
+        public async Task<IActionResult> Create([Bind("Id,Nom,Client,Domaines")] Projet projet)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +71,7 @@ namespace Hotline.Controllers
                     i++;
                 }
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index","Clients");
             }
             return RedirectToAction("Index","Clients");
         }
@@ -92,7 +85,7 @@ namespace Hotline.Controllers
             }
 
             var projet = await _context.Projets.FindAsync(id);
-            ViewBag.DomainesList = _context.Domaines.Where(d => d.Projet.Id == id);
+            ViewBag.DomainesList = _context.Domaines.Where(d => d.Projet.Id == id).OrderBy(d=>d.Nom);
             if (projet == null)
             {
                 return NotFound();
@@ -105,7 +98,7 @@ namespace Hotline.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nom")] Projet projet)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nom,Client,Domaines")] Projet projet)
         {
             if (id != projet.Id)
             {
@@ -140,7 +133,7 @@ namespace Hotline.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index","Clients");
             }
             return View(projet);
         }
@@ -171,7 +164,7 @@ namespace Hotline.Controllers
             var projet = await _context.Projets.FindAsync(id);
             _context.Projets.Remove(projet);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index","Clients");
         }
 
         private bool ProjetExists(int id)

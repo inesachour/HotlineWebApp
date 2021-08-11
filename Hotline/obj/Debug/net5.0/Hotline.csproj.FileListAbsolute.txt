@@ -155,7 +155,6 @@ C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\V
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Projets\Delete.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Projets\Details.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Projets\Edit.cshtml.g.cs
-C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Projets\Index.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.Internal.dll
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\bin\Debug\net5.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
@@ -169,7 +168,6 @@ C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\bin\Debug\net5.0\Microso
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Hotline.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Shared\_LoginPartial.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Hotline.csproj.AssemblyReference.cache
-C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Clients\Create.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Clients\Delete.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Clients\Details.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Clients\Edit.cshtml.g.cs
@@ -183,14 +181,10 @@ C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\V
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\ReclamationsClient\Create.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\ReclamationsClient\Delete.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\ReclamationsClient\Details.cshtml.g.cs
-C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\ReclamationsClient\Edit.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\ReclamationsClient\Index.cshtml.g.cs
-C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\ReclamationsUser\Delete.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\ReclamationsUser\Details.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\ReclamationsUser\Edit.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\ReclamationsUser\Index.cshtml.g.cs
-C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\ReclamationsAdmin\Create.cshtml.g.cs
-C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\ReclamationsAdmin\Delete.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\ReclamationsAdmin\Details.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\ReclamationsAdmin\Edit.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\ReclamationsAdmin\Index.cshtml.g.cs
@@ -476,5 +470,8 @@ C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\bin\Debug\net5.0\refs\Wi
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.Razor.Extensions.dll
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation.dll
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\bin\Debug\net5.0\Microsoft.Extensions.DependencyModel.dll
-C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Users\Details.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Clients\EditPassword.cshtml.g.cs
+C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Authentication\forgetPassword.cshtml.g.cs
+C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Clients\Create.cshtml.g.cs
+C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Users\EditPassword.cshtml.g.cs
+C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Users\Details.cshtml.g.cs

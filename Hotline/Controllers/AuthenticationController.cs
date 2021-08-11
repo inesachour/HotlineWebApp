@@ -1,5 +1,6 @@
 ﻿using Hotline.Data;
 using Hotline.Models;
+using Hotline.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -17,10 +18,13 @@ namespace Hotline.Controllers
     public class AuthenticationController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IMailingService _mailingService;
 
-        public AuthenticationController( AppDbContext context)
+        public AuthenticationController( AppDbContext context, IMailingService mailingService)
         {
             _context = context;
+            _mailingService = mailingService;
+
         }
 
         [HttpGet("denied")]
@@ -115,33 +119,55 @@ namespace Hotline.Controllers
         }
 
 
-        [Authorize(Roles ="Client,Admin")]
-        [HttpGet("account")]
-        public async Task<IActionResult> AccountClient(int? id)
+        [HttpGet("forgetPassword")]
+        public IActionResult forgetPassword()
         {
-            if (id == null)
+            if (User.Identity.IsAuthenticated)
             {
-                return NotFound();
+                return Redirect("/");
             }
-
-            var client = await _context.Clients.FirstOrDefaultAsync(m => m.Id == id);
-            if (client == null)
-            {
-                return NotFound();
-            }
-            else if(client.Id != id)
-            {
-                return Redirect("denied");
-            }
-            return View(client);
+            return View();
         }
 
+        [HttpPost("forgetPassword")]
+        public async Task<IActionResult> forgetPassword(string login, string email)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Redirect("/");
+            }
+
+            var clients = from c in _context.Clients
+                          select c;
+            var client = clients.Where(c => c.Login == login).FirstOrDefault();
+            if (client != null)
+            {
+                if (email != client.Email)
+                {
+                    TempData["Error"] = "Email incorrect";
+                    return View();
+                }
+                else
+                {
+                    Random r = new Random();
+                    var pwd = r.Next(10000,99999).ToString();
+                    var passwordHasher = new PasswordHasher<string>();
+                    client.Password = passwordHasher.HashPassword(null,pwd);
+                    _context.SaveChanges();
+                    await _mailingService.SendEmail(client.Email, "Récupération mot de passe", "Votre nouveau mot de passe est : "+pwd);
+                    TempData["success"] = "Le mail de recupération de mot de passe a été envoyé avec succès";
+                    return RedirectToAction("login");
+                }
+            }
+
+            return View();
+        }
 
         [Authorize]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
-            return Redirect("/"); //REDIRECT TO HOME ACTION  ?? or maybe try view ~/Views/Guestbook/Index.cshtml
+            return Redirect("/");
         }
     }
 }

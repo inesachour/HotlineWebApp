@@ -4,7 +4,19 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+
+<div class="row mb-2">
+    <div class="col-sm pr-0 pl-4">
+        <a class="btn btn-primary btn-block mr-0 rounded-0" asp-action="Index">Réclamations en cours</a>
+    </div>
+    <div class="col-sm pl-1 pr-1">
+        <a class="btn btn-primary btn-block ml-0 rounded-0" asp-route-résolue=@true>Réclamations Résolues</a>
+    </div>
+    <div class="col-sm pl-0 pr-4">
+        <a class="btn btn-primary btn-block ml-0 rounded-0" asp-route-cloturé=@true>Réclamations Cloturées</a>
+    </div>
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -64,12 +76,14 @@
                 @Html.DisplayFor(modelItem => item.DateAffectation)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Numero">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Numero">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Numero">Delete</a>
-                @if (item.Statut == "Résolue")
+                <a asp-action="Details" asp-route-id="@item.Numero">Details</a>
+                @if (ViewData["recs"] as string == "Résolue")
                 {
                     <a asp-action="Cloturer" asp-route-id="@item.Numero">Cloturer</a>
+                }
+                else if (ViewData["recs"] as string == "Autre")
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Numero">Solution</a>
                 }
             </td>
         </tr>

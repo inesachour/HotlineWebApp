@@ -24,10 +24,26 @@ namespace Hotline.Controllers
 
         // GET: Reclamations
         [Authorize(Roles = "User,Admin")]
-        public async Task<IActionResult> Index(int? pageNumber)
+        public async Task<IActionResult> Index(int? pageNumber,bool résolue, bool cloturé)
         {
             var reclamations = _context.Reclamations.Include(c => c.Client).Where(r => r.Responsable.Login == User.Identity.Name);
             int pageSize = 8;
+
+            if (résolue == true)
+            {
+                reclamations = reclamations.Where(r => r.Statut == "Résolue");
+                ViewData["recs"] = "Résolue";
+            }
+            else if (cloturé == true)
+            {
+                reclamations = reclamations.Where(r => r.Statut == "Cloturée");
+                ViewData["recs"] = "Cloturée";
+            }
+            else
+            {
+                reclamations = reclamations.Where(r => r.Statut != "Cloturée" && r.Statut != "Résolue");
+                ViewData["recs"] = "Autre";
+            }
             return View(await PaginatedList<Reclamation>.CreateAsync(reclamations.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
@@ -73,7 +89,7 @@ namespace Hotline.Controllers
         [Authorize(Roles = "User,Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Numero,Description,DateSoumission,Statut,DateAffectation,DateResolution,Solution")] Reclamation reclamation)
+        public async Task<IActionResult> Edit(int id, [Bind("Numero,Client,Projet,Domaine,Description,DateSoumission,Statut,DateAffectation,Responsable,DateResolution,Solution")] Reclamation reclamation)
         {
             if (id != reclamation.Numero)
             {
@@ -84,7 +100,8 @@ namespace Hotline.Controllers
             {
                 try
                 {
-                    reclamation.DateResolution = DateTime.Now;
+                    var localTimeZone = TimeZoneInfo.FindSystemTimeZoneById("W. Central Africa Standard Time");
+                    reclamation.DateResolution = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, localTimeZone);
                     reclamation.Statut = "Résolue";
                     _context.Update(reclamation);
                     var reclamations = _context.Reclamations.Include(c => c.Client).Where(r => r.Numero == reclamation.Numero);
@@ -106,37 +123,6 @@ namespace Hotline.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(reclamation);
-        }
-
-        // GET: Reclamations/Delete/5
-        [Authorize(Roles = "User,Admin")]
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var reclamation = await _context.Reclamations
-                .FirstOrDefaultAsync(m => m.Numero == id);
-            if (reclamation == null)
-            {
-                return NotFound();
-            }
-
-            return View(reclamation);
-        }
-
-        // POST: Reclamations/Delete/5
-        [Authorize(Roles = "User,Admin")]
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var reclamation = await _context.Reclamations.FindAsync(id);
-            _context.Reclamations.Remove(reclamation);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         // GET: Reclamations/Cloturer/5

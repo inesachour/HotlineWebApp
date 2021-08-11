@@ -1,0 +1,8 @@
+﻿body, #login {
+    background-color:lightsteelblue;
+    max-width: 100vw;
+}
+
+#loginform{
+    background-color:white;
+}
