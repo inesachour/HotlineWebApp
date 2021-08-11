@@ -30,9 +30,6 @@ namespace Hotline.Controllers
             ViewData["DateSortParamDesc"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["DateSortParamAsc"] = sortOrder == "Date" ? "date_asc" : "Date";
 
-            ViewData["StatutSortParamDesc"] = String.IsNullOrEmpty(sortOrder) ? "statut_desc" : "";
-            ViewData["StatutSortParamAsc"] = String.IsNullOrEmpty(sortOrder) ? "statut_asc" : "";
-
             var reclamations = _context.Reclamations.Include(c => c.Client).Where(r=> r.Numero != 0);
             if (cloturé == true)
             {
@@ -56,9 +53,6 @@ namespace Hotline.Controllers
                     break;
                 case "client_desc":
                     reclamations = reclamations.OrderByDescending(r => r.Client.Login);
-                    break;
-                case "statut_desc":
-                    reclamations = reclamations.OrderBy(r => r.DateSoumission);
                     break;
                 case "date_desc":
                     reclamations = reclamations.OrderByDescending(r => r.Statut);
@@ -84,7 +78,7 @@ namespace Hotline.Controllers
                 return NotFound();
             }
 
-            var reclamation = await _context.Reclamations
+            var reclamation = await _context.Reclamations.Include(r => r.Domaine).Include(r => r.Projet).Include(r=>r.Client)
                 .FirstOrDefaultAsync(m => m.Numero == id);
             if (reclamation == null)
             {

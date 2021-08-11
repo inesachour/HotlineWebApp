@@ -4,11 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -38,7 +34,9 @@
                 Solution
             </th>
 
-            <th></th>
+            <th>
+                <a class="btn btn-success" asp-action="Create"><i class="fas fa-plus"></i></a>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -67,11 +65,13 @@
                 @Html.DisplayFor(modelItem => item.Solution)
             </td>
             <td>
+
                 <a asp-action="Details" asp-route-id="@item.Numero">Details</a>
 
                 @if (item.Statut == "Soumise")
                 {
-                    <button class="btn btn-danger" onclick="showInPopup('@Url.Action("Delete","ReclamationsClient",item,Context.Request.Scheme)', 'Supprimer Reclamation')"><i class="fas fa-trash"></i></button>
+                    <button class="btn btn-danger" onclick="showInPopup('ReclamationsClient/Delete/'+@item.Numero, 'Supprimer Reclamation')"><i class="fas fa-trash"></i></button>
+
                 }
             </td>
         </tr>

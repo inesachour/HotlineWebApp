@@ -475,3 +475,4 @@ C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\V
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Clients\Create.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Users\EditPassword.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Users\Details.cshtml.g.cs
+C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Shared\_LayoutHome.cshtml.g.cs

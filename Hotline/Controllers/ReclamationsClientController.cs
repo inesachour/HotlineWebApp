@@ -68,7 +68,7 @@ namespace Hotline.Controllers
                 return NotFound();
             }
 
-            var reclamation = await _context.Reclamations
+            var reclamation = await _context.Reclamations.Include(c=>c.Projet).Include(c=>c.Domaine)
                 .FirstOrDefaultAsync(m => m.Numero == id);
             if (reclamation == null)
             {
@@ -163,7 +163,7 @@ namespace Hotline.Controllers
             return View(reclamation);
         }
 
-        // GET: Reclamations/Delete/5
+        // GET: ReclamationsClient/Delete/5
         [Authorize(Roles = "Client")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -172,7 +172,7 @@ namespace Hotline.Controllers
                 return NotFound();
             }
 
-            var reclamation = await _context.Reclamations
+            var reclamation = await _context.Reclamations.Include(r=>r.Projet).Include(r=>r.Domaine)
                 .FirstOrDefaultAsync(m => m.Numero == id);
             if (reclamation == null)
             {
@@ -182,7 +182,7 @@ namespace Hotline.Controllers
             return View(reclamation);
         }
 
-        // POST: Reclamations/Delete/5
+        // POST: ReclamationsClient/Delete/5
         [Authorize(Roles = "Client")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

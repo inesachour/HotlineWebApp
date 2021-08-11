@@ -6,9 +6,8 @@
 }
 
 #intro {
-    background: url("../images/introBG.jpg");
-    height: 85vh;
-    margin-left: 55vh;
+    margin-top:200px;
+    height: 80vh;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -20,7 +19,7 @@
     width: 70vh;
     height: 30vh;
     position: absolute;
-    transform: translate(15vh, 20vh);
+    transform: translate(65vh, 10vh);
     z-index: 9;
     opacity: 85%;
 }
@@ -31,8 +30,8 @@
 
 #part1 {
     background: url("../images/part1.jpg");
-    width: 20vw;
-    height: 70vh;
+    width: 22vw;
+    height: 76vh;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -42,8 +41,8 @@
 
 #part2 {
     background: url("../images/part2.jpg");
-    width: 20vw;
-    height: 70vh;
+    width: 22vw;
+    height: 76vh;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -53,8 +52,8 @@
 
 #part3 {
     background: url("../images/part3.jpg");
-    width: 20vw;
-    height: 70vh;
+    width: 22vw;
+    height: 76vh;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -78,4 +77,8 @@
     transform: scale(0.9);
     transition: 1s;
     filter: saturate(0);
+}
+
+#animatedpart{
+    margin-bottom:200px;
 }

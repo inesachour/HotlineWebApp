@@ -56,7 +56,7 @@ namespace Hotline.Controllers
                 return NotFound();
             }
 
-            var reclamation = await _context.Reclamations
+            var reclamation = await _context.Reclamations.Include(r=>r.Domaine).Include(r=>r.Projet).Include(r => r.Client)
                 .FirstOrDefaultAsync(m => m.Numero == id);
             if (reclamation == null)
             {

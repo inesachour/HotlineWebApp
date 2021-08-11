@@ -26,7 +26,12 @@
             <h3>@Html.DisplayNameFor(model => model.Login)</h3>
             <p>@Html.DisplayFor(model => model.Login)</p>
             <h3>@Html.DisplayNameFor(model => model.Admin)</h3>
-            <p>@Html.DisplayFor(model => model.Admin)</p>
+            <p>
+                @if (Model.Admin == true)
+                {<h4>&#10004;</h4>}
+                else
+                {<h4>&#10006;</h4>}
+                    </p>
         </div>
         <div>
         </div>
