@@ -51,7 +51,7 @@ namespace Hotline.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nom,Client,Domaines")] Projet projet)
+        public async Task<IActionResult> Create([Bind("Nom,Client,Domaines")] Projet projet)
         {
             if (ModelState.IsValid)
             {

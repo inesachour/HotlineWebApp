@@ -9,7 +9,6 @@ namespace Hotline.Models
 {
     public class Projet
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Key]
         public int Id { get; set; }
         [Required(ErrorMessage = "Ce champs est requis")]
