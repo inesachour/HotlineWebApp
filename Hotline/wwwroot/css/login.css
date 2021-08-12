@@ -1,8 +1,9 @@
 ﻿body, #login {
-    background-color: lightgrey;
+    background-color: #FFFFFF;
     max-width: 100vw;
 }
 
-#loginform{
-    background-color:white;
+#loginform {
+    background-color: white;
+    background-color: #F2F2F3;
 }

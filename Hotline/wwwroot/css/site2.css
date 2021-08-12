@@ -17,10 +17,10 @@
 
 #box {
     color: white;
-    width: 70vh;
-    height: 30vh;
+    width: 98.7vw;
+    height: 23vh;
     position: absolute;
-    transform: translate(65vh, 10vh);
+    transform: translate(0vh, 11vh);
     z-index: 9;
     opacity: 85%;
 }

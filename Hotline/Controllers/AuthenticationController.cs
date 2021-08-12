@@ -43,7 +43,7 @@ namespace Hotline.Controllers
             if(_context.Users.Count() == 0)
             {
                 var passwordHasher = new PasswordHasher<string>();
-                User u = new User { Login = "MAVISION", Admin = true, Password = passwordHasher.HashPassword(null, "MAVISION") };
+                User u = new User { Login = "MAVISION", Admin = true, Password = passwordHasher.HashPassword(null, "MAVISION2021") };
                 _context.Add(u);
                 _context.SaveChanges();
             }

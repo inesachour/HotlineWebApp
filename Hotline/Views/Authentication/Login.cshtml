@@ -14,17 +14,17 @@
 
     <div class="col-md-4 border border-3 mt-5" id="loginform">
             <a asp-controller="Home" asp-action="Index" style="text-decoration:none">
-                <h2 class="p-0 m-0">&#10006;</h2>
+                <h2 class="p-0 m-0 mt-1 text-danger">&#10006;</h2>
             </a>
         @if (!string.IsNullOrEmpty(success))
         {
             <h3 class="alert-success"> @success </h3>
         }
         
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center text-secondary">
             <i class="fas fa-user-alt fa-3x"></i>
         </div>
-        <h1 class="text-center">Login</h1>
+        <h2 class="text-center text-secondary">Se Connecter</h2>
         <form action="/login?ReturnUrl=@System.Net.WebUtility.UrlEncode(returnUrl)" method="post" class="m-3">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group mr-2 ml-2">
@@ -47,7 +47,7 @@
             }
 
 
-            <div class="form-group mr-2 ml-2">
+            <div class="form-group mr-2 ml-2 mb-3">
                 <input type="submit" value="Se Connecter" class="btn btn-primary btn-block btn-lg mt-4" />
             </div>
         </form>
