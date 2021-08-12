@@ -47,6 +47,46 @@ namespace Hotline.Controllers
             return View(await PaginatedList<Reclamation>.CreateAsync(reclamations.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
+
+        // GET: ReclamationsUser/Delete/5
+        [Authorize(Roles = "User,Admin")]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var reclamation = await _context.Reclamations.Include(r => r.Projet).Include(r => r.Domaine)
+                .FirstOrDefaultAsync(m => m.Numero == id);
+            if (reclamation == null)
+            {
+                return NotFound();
+            }
+            if ((reclamation.Responsable.Login != User.Identity.Name && User.IsInRole("User") )|| reclamation.Statut!="Cloturée")
+                {
+                return Redirect("denied");
+            }
+
+            return View(reclamation);
+        }
+
+        // POST: ReclamationsClient/Delete/5
+        [Authorize(Roles = "Client")]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var reclamation = await _context.Reclamations.FindAsync(id);
+            _context.Reclamations.Remove(reclamation);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+
+
         // GET: Reclamations/Details/5
         [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> Details(int? id)
@@ -79,6 +119,10 @@ namespace Hotline.Controllers
             if (reclamation == null)
             {
                 return NotFound();
+            }
+            if (reclamation.Statut != "Afféctée")
+            {
+                return RedirectToAction("Index");
             }
             return View(reclamation);
         }
@@ -140,9 +184,12 @@ namespace Hotline.Controllers
             {
                 return NotFound();
             }
+            if(reclamation.Statut != "Résolue")
+            {
+                return RedirectToAction("Index");
+            }
             reclamation.Statut = "Cloturée";
             await _context.SaveChangesAsync();
-
             return RedirectToAction("Index");
         }
 

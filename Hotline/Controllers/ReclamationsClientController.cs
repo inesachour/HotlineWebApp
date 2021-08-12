@@ -23,6 +23,7 @@ namespace Hotline.Controllers
         }
 
         // GET: Reclamations
+        [HttpGet("Reclamations")]
         [Authorize(Roles = "Client")]
         public async Task<IActionResult> Index(int? pageNumber,string sortOrder)
         {
@@ -60,6 +61,7 @@ namespace Hotline.Controllers
         }
 
         // GET: Reclamations/Details/5
+        [HttpGet("Reclamations/Details/{id}")]
         [Authorize(Roles = "Client")]
         public async Task<IActionResult> Details(int? id)
         {
@@ -79,6 +81,7 @@ namespace Hotline.Controllers
         }
 
         // GET: Reclamations/Create
+        [HttpGet("Reclamations/Create")]
         [Authorize(Roles = "Client")]
         public IActionResult Create(int? projetId)
         {
@@ -105,7 +108,7 @@ namespace Hotline.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Authorize(Roles = "Client")]
-        [HttpPost]
+        [HttpPost("Reclamations/Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Numero,Client,Projet,Domaine,Description,DateSoumission,Statut,DateAffectation,Responsable,DateResolution,Solution")] Reclamation reclamation)
         {
@@ -128,39 +131,6 @@ namespace Hotline.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return RedirectToAction("Create",reclamation);
-        }
-
-        [Authorize(Roles = "Client")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Numero,Client,Projet,Domaine,Description,DateSoumission,Statut,DateAffectation,Responsable,DateResolution,Solution")] Reclamation reclamation)
-        {
-            if (id != reclamation.Numero)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(reclamation);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ReclamationExists(reclamation.Numero))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(reclamation);
         }
 
         // GET: ReclamationsClient/Delete/5

@@ -10,12 +10,13 @@ namespace Hotline.Models
     public class Client
     {
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Ce champs est requis")]
+
         public string Login { get; set; }
         [DataType(DataType.Password)]
-        [Required]
+        [Required(ErrorMessage = "Ce champs est requis")]
         public string Password { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Ce champs est requis")]
         public string Email { get; set; }
         public ICollection<Projet> Projets { get; set; }
 

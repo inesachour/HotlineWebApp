@@ -2,12 +2,17 @@
 
 @{
     ViewData["Title"] = "Edit";
-}
+    var error = TempData["Error"] as string;
 
+}
+@if (!string.IsNullOrEmpty(error))
+{
+    <h2 class="alert-danger"> @error </h2>
+}
 <hr />
 <div class="row" id="center">
     <div class="col-md-12">
-        
+
         <a asp-action="Index" asp-controller="ReclamationsUser"><i class="fas fa-arrow-left fa-2x"></i></a>
         <h3 class="text-center mb-3 mt-2">Solution pour la réclamation N° @Model.Numero</h3>
         <form asp-action="Edit">
@@ -20,10 +25,12 @@
             <input type="hidden" asp-for="Domaine" />
             <input type="hidden" asp-for="Projet" />
             <input type="hidden" asp-for="Responsable" />
+            <input type="hidden" asp-for="Statut" />
+
 
             <div class="form-group">
                 <label asp-for="Solution" class="control-label"></label>
-                <input asp-for="Solution" class="form-control" />
+                <textarea asp-for="Solution" class="form-control" rows="4"> </textarea>
                 <span asp-validation-for="Solution" class="text-danger"></span>
             </div>
             <div class="form-group d-flex justify-content-center">

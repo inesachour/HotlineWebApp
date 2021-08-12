@@ -172,7 +172,6 @@ C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\V
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Clients\Details.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Clients\Edit.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Clients\Index.cshtml.g.cs
-C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Authentication\Denied.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Authentication\Login.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Users\Create.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Users\Delete.cshtml.g.cs
@@ -476,3 +475,4 @@ C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\V
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Users\EditPassword.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Users\Details.cshtml.g.cs
 C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\Shared\_LayoutHome.cshtml.g.cs
+C:\Users\Ines\Desktop\HotlineWebApp\Tryingtofix\Hotline\obj\Debug\net5.0\Razor\Views\ReclamationsUser\Delete.cshtml.g.cs

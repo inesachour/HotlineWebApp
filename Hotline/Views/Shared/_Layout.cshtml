@@ -3,11 +3,16 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name=" robots " content="index, follow" />
     <title>Mavision - Hotline </title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/site2.css" />
     <script src="https://kit.fontawesome.com/e08ca8bd00.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
 
 </head>
@@ -15,12 +20,7 @@
     <header>
         @if (!ViewData["Title"].Equals("Login"))
         {
-
-            @if (ViewData["Title"].Equals("Acceuil"))
-                {
-
-                }
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow bg-light border-0 mb-5" id="navbar">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow bg-light border-0 mb-5" id="navbarDark">
                 <a class="navbar-brand ml-3"  asp-controller="Home" asp-action="Index">
                     <img src="~/images/mav.png" id="logo" class="d-inline-block align-top" alt="">
                 </a>
@@ -32,39 +32,51 @@
                     }
                     else
                     {
-                        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse dropleft">
+                        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                             <ul class="navbar-nav">
+                                <li>
+                                    <a class="btn btn-danger mr-2 ml-2" asp-controller="Home" asp-action="Index">Acceuil</a>
+                                    @if (User.IsInRole("Client"))
+                                    {
+                                        <a class="btn btn-outline-secondary border-0 mr-2 ml-2" asp-area="" asp-controller="ReclamationsClient" asp-action="Index">Reclamations</a>
+                                        <a class="btn btn-outline-secondary border-0 mr-2 ml-2" asp-area="" asp-controller="Clients" asp-action="Details" asp-route-id="@Int32.Parse(User.FindFirst("Id").Value)">Compte</a>
+                                    }
+                                    @if (User.IsInRole("User"))
+                                    {
+                                        <a class="btn btn-outline-secondary border-0 mr-2 ml-2" asp-area="" asp-controller="ReclamationsUser" asp-action="Index">Reclamations</a>
+                                        <a class="btn btn-outline-secondary border-0 mr-2 ml-2" asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@Int32.Parse(User.FindFirst("Id").Value)">Compte</a>
+                                    }
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                    <li>
+                                        <div class="dropdown mr-2 ml-2">
+                                            <button class="btn btn-outline-secondary border-0 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Réclamations
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="ReclamationsAdmin" asp-action="Index">Reclamations</a>
+                                                <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="ReclamationsUser" asp-action="Index">Reclamations Affectées</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown mr-2 ml-2">
+                                            <button class="btn btn-outline-secondary border-0 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Comptes
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Users" asp-action="Index">Comptes Users</a>
+                                                <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Clients" asp-action="Index">Comptes Clients</a>
+                                                <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@Int32.Parse(User.FindFirst("Id").Value)">Compte</a>
+                                            </div>
+                                        </div>
+                                    </li>
 
-                                <li class="dropdown">
-                                    <button class="btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-list"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        @if (User.IsInRole("Client"))
-                                        {
-                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="ReclamationsClient" asp-action="Index">Reclamations</a>
-                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Clients" asp-action="Details" asp-route-id="@Int32.Parse(User.FindFirst("Id").Value)">Compte</a>
-                                        }
-
-                                        @if (User.IsInRole("User"))
-                                        {
-                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="ReclamationsUser" asp-action="Index">Reclamations</a>
-                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@Int32.Parse(User.FindFirst("Id").Value)">Compte</a>
-                                        }
-                                        @if (User.IsInRole("Admin"))
-                                        {
-                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="ReclamationsAdmin" asp-action="Index">Reclamations</a>
-                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="ReclamationsUser" asp-action="Index">Reclamations Affectées</a>
-                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Users" asp-action="Index">Comptes Users</a>
-                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Clients" asp-action="Index">Comptes Clients</a>
-                                            <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@Int32.Parse(User.FindFirst("Id").Value)">Compte</a>
-
-                                        }
-                                        <a class="nav-link text-dark dropdown-item" asp-area="" asp-controller="Authentication" asp-action="Logout">Logout</a>
-                                    </div>
-                                </li>
-
-                            </ul>
+                                }
+                                    <li>
+                                    <a class="nav-link text-danger mr-2" asp-area="" asp-controller="Authentication" asp-action="Logout">Déconnexion</a>
+                                    </li>
+                                </ul>
                         </div>
                     }
                 </div>
@@ -73,7 +85,7 @@
     </header>
 
     <main role="main" class="">
-        @if (ViewData["Title"] as string != "Acceuil" && ViewData["Title"] as string != "Login")
+        @if (ViewData["Title"] as string != "Login")
         {
             <div class="container">
                 @RenderBody()

@@ -10,9 +10,9 @@ namespace Hotline.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Ce champs est requis")]
         public string Nom { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Ce champs est requis")]
         public Projet Projet { get; set; }
     }
 }

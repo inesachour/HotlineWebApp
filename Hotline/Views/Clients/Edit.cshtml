@@ -12,18 +12,18 @@
 }
 
 <div class="row p-0 border-0 mt-5" id="center">
-    <div class="col-sm-4 p-0">
-        <a class="btn btn-primary btn-block mt-0 pb-0 rounded-0" style="height:16vh" asp-action="Details" asp-route-id="@Model.Id">
+    <div class="col-sm-4 border p-0">
+        <a class="btn btn-primary btn-block mt-0 pb-0 rounded-0 d-flex align-items-center justify-content-center" style="height:16vh" asp-action="Details" asp-route-id="@Model.Id">
             Compte
         </a>
         <button class="btn btn-light btn-block mb-0 mt-0 rounded-0" style="height:16vh" disabled>Modifier Compte</button>
-        <a class="btn btn-primary btn-block mt-0 rounded-0" style="height:16vh" asp-action="EditPassword" asp-route-id="@Model.Id">
+        <a class="btn btn-primary btn-block mt-0 pb-0 rounded-0 d-flex align-items-center justify-content-center" style="height:16vh" asp-action="EditPassword" asp-route-id="@Model.Id">
             Modifier mot de passe
         </a>
 
     </div>
     <div class="col-sm-7 border ">
-        <div class="row">
+        <div class="row mt-1">
             <div class="col-md-12">
                 <form asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>

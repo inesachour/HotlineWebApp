@@ -2,9 +2,14 @@
 
 @{
     ViewData["Title"] = "Edit";
+    var error = TempData["Error"] as string;
+
 }
 
-
+@if (!string.IsNullOrEmpty(error))
+{
+    <h2 class="alert-danger"> @error </h2>
+}
 <hr />
 <div class="row mt-5" id="center">
     <div class="col-md-12">
@@ -19,7 +24,7 @@
             <input type="hidden" asp-for="Domaine" />
             <input type="hidden" asp-for="Description" />
             <input type="hidden" asp-for="DateSoumission" />
-
+            <input type="hidden" asp-for="Statut" />
 
 
             <div class="form-group mt-2">
@@ -28,7 +33,7 @@
                         asp-items="@(new SelectList(ViewBag.UsersList,"Id","Login"))"></select>
                 <span asp-validation-for="Responsable" class="text-danger"></span>
             </div>
-            <div class="form-group d-flex justify-content-center" >
+            <div class="form-group d-flex justify-content-center">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>

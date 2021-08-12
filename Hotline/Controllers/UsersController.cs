@@ -272,6 +272,12 @@ namespace Hotline.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var user = await _context.Users.FindAsync(id);
+            var rec = _context.Reclamations.Where(r => r.Responsable.Id == id);
+            if (rec.Count() > 0)
+            {
+                TempData["error"] = "Ce User a des réclamations en cours!";
+                return RedirectToAction("Index");
+            }
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

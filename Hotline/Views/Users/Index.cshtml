@@ -2,9 +2,13 @@
 
 @{
     ViewData["Title"] = "Index";
+    var error = TempData["Error"] as string;
 }
 
-
+@if (!string.IsNullOrEmpty(error))
+{
+    <h2 class="alert-danger"> @error </h2>
+}
 <table class="table">
     <thead>
         <tr>
@@ -20,23 +24,24 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Login)
-            </td>
-            <td>
-                @if (item.Admin == true)
-                {<h4>&#10004;</h4>}
-                else 
-                {<h4>&#10006;</h4>}
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Modifier</a> |
-                <button class="btn btn-danger" onclick="showInPopup('@Url.Action("Delete","Users",item,Context.Request.Scheme)', 'Supprimer User')"><i class="fas fa-trash"></i></button>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Login)
+                </td>
+                <td>
+                    @if (item.Admin == true)
+                    {<h4>&#10004;</h4>}
+                    else
+                    {<h4>&#10006;</h4>}
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Modifier</a> |
+                    <button class="btn btn-danger" onclick="showInPopup('@Url.Action("Delete","Users",item,Context.Request.Scheme)', 'Supprimer User')"><i class="fas fa-trash"></i></button>
 
-            </td>
-        </tr>
-}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -57,8 +57,7 @@ namespace Hotline.Controllers
             {
 
                 projet.Client = _context.Clients.Find(Int32.Parse(HttpContext.Request.Form["client"]));
-                _context.Add(projet);
-                _context.SaveChanges();
+                //await _context.SaveChangesAsync();
 
                 var i = 1;
                 while (! string.IsNullOrEmpty(HttpContext.Request.Form["domaine" + i]))
@@ -70,6 +69,8 @@ namespace Hotline.Controllers
                     projet.Domaines.Add(d);
                     i++;
                 }
+                _context.Add(projet);
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index","Clients");
             }
@@ -162,6 +163,12 @@ namespace Hotline.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var projet = await _context.Projets.FindAsync(id);
+            var dom = _context.Domaines.Where(d => d.Projet.Id == id);
+            if (dom.Count() > 0)
+            {
+                TempData["error"] = "Veuillez supprimer les domaines de ce projet d'abord!";
+                return RedirectToAction("Index","Clients");
+            }
             _context.Projets.Remove(projet);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index","Clients");

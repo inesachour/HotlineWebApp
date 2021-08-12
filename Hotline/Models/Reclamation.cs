@@ -13,7 +13,7 @@ namespace Hotline.Models
         public Client Client { get; set; }
         public Projet Projet { get; set; } 
         public Domaine Domaine { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Ce champs est requis")]
         public string Description { get; set; }
 
         [DisplayFormat(ApplyFormatInEditMode =true, DataFormatString = "{0:yyyy/MM/dd HH:mm}")]

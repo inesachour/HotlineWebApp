@@ -67,9 +67,7 @@ namespace Hotline.Migrations
             modelBuilder.Entity("Hotline.Models.Projet", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<int?>("ClientId")
                         .HasColumnType("int");

@@ -30,7 +30,7 @@ namespace Hotline.Controllers
         [HttpGet("denied")]
         public IActionResult Denied()
         {
-            return View();
+            return RedirectToAction("Index","Home");
         }
 
         [HttpGet("login")]
@@ -40,6 +40,14 @@ namespace Hotline.Controllers
             {
                 return Redirect("/");
             }
+            if(_context.Users.Count() == 0)
+            {
+                var passwordHasher = new PasswordHasher<string>();
+                User u = new User { Login = "MAVISION", Admin = true, Password = passwordHasher.HashPassword(null, "MAVISION") };
+                _context.Add(u);
+                _context.SaveChanges();
+            }
+
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }

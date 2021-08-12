@@ -85,6 +85,12 @@
                 {
                     <a asp-action="Edit" asp-route-id="@item.Numero">Solution</a>
                 }
+                else if (ViewData["recs"] as string == "Cloturé")
+                {
+                    <button class="btn btn-danger" onclick="showInPopup('ReclamationsClient/Delete/'+@item.Numero, 'Supprimer Reclamation')"><i class="fas fa-trash"></i></button>
+
+
+                }
             </td>
         </tr>
         }

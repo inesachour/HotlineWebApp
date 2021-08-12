@@ -12,6 +12,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     filter: brightness();
+    max-width:100vw;
 }
 
 #box {
@@ -81,4 +82,8 @@
 
 #animatedpart{
     margin-bottom:200px;
+}
+
+#navbarDark{
+    background-color:lightgrey !important;
 }

@@ -127,7 +127,12 @@ namespace Hotline.Controllers
             if (ModelState.IsValid)
             {
                 try
-                { 
+                {
+                    if (reclamation.Statut != "Soumise")
+                    {
+                        TempData["Error"] = "Vous ne pouvez pas modifier cette réclamation";
+                        return RedirectToAction("Edit",reclamation);
+                    }
                     var idResponsable = Int32.Parse(Request.Form["Responsable"]);
                     reclamation.Responsable = _context.Users.Find(idResponsable);
                     reclamation.Statut = "Afféctée";
